@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="../tests/Phoenix.IntegrationTests/Phoenix.IntegrationTests.csproj" />
+  <Project Path="../tests/Phoenix.UnitTests/Phoenix.UnitTests.csproj" />
+  <Project Path="Phoenix.Api/Phoenix.Api.csproj" />
+  <Project Path="Phoenix.Application/Phoenix.Application.csproj" />
+  <Project Path="Phoenix.Domain/Phoenix.Domain.csproj" />
+  <Project Path="Phoenix.Infrastructure/Phoenix.Infrastructure.csproj" />
+</Solution>

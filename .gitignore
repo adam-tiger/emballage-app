@@ -1,0 +1,77 @@
+## ============================================================
+## .NET / ASP.NET Core
+## ============================================================
+
+# Build outputs
+bin/
+obj/
+out/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!**/packages/repositories.config
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Test results
+TestResults/
+coverage/
+*.trx
+*.coveragexml
+*.coverage
+
+# Entity Framework migrations (generated SQL, not the migration classes)
+*.mdf
+*.ldf
+
+# Secrets & configuration locale
+appsettings.*.local.json
+secrets.json
+*.pfx
+*.p12
+
+# Azure Functions local settings
+local.settings.json
+
+## ============================================================
+## Environnement & sécurité
+## ============================================================
+
+.env
+.env.*
+!.env.example
+
+## ============================================================
+## OS
+## ============================================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## ============================================================
+## Docker
+## ============================================================
+
+# Garder les Dockerfiles mais ignorer les overrides locaux
+docker-compose.override.yml
+
+## ============================================================
+## Logs & diagnostics
+## ============================================================
+
+*.log
+logs/
