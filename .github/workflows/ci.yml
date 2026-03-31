@@ -1,0 +1,115 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-build-test:
+    name: backend-build-test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build (warnings as errors)
+        run: dotnet build --no-restore -c Release -warnaserror
+
+      - name: Test with coverage
+        run: dotnet test --no-build -c Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+
+      - name: Publish coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-testresults
+          path: ./TestResults
+
+  frontend-build-test:
+    name: frontend-build-test
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: eAJ.Portals
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: eAJ.Portals/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Test
+        run: npm run test --if-present -- --watch=false
+
+      - name: Build production
+        run: npm run build -- --configuration production
+
+  dependency-security:
+    name: security-scan
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: eAJ.Portals/package-lock.json
+
+      - name: Restore frontend deps
+        working-directory: eAJ.Portals
+        run: npm ci
+
+      - name: .NET vulnerable packages
+        run: dotnet list package --vulnerable --include-transitive
+
+      - name: NPM audit (high/critical fail)
+        working-directory: eAJ.Portals
+        run: npm audit --audit-level=high
+
+  quality-gate:
+    name: quality-gate
+    runs-on: ubuntu-24.04
+    needs:
+      - backend-build-test
+      - frontend-build-test
+      - dependency-security
+    steps:
+      - name: Gate passed
+        run: echo "All required quality checks passed."
