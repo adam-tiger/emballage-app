@@ -262,6 +262,29 @@ public sealed class Product
     }
 
     /// <summary>
+    /// Ajoute une image à la galerie du produit.
+    /// Si c'est la première image ou si <paramref name="image"/> a <c>IsMain = true</c>,
+    /// toutes les autres images perdent leur statut principal.
+    /// </summary>
+    /// <param name="image">L'entité image à ajouter.</param>
+    public void AddImage(ProductImage image)
+    {
+        if (image.IsMain)
+        {
+            foreach (var img in _images)
+                img.UnsetAsMain();
+        }
+        else if (!_images.Any())
+        {
+            // La première image devient automatiquement l'image principale.
+            image.SetAsMain();
+        }
+
+        _images.Add(image);
+        UpdatedAtUtc = DateTime.UtcNow;
+    }
+
+    /// <summary>
     /// Définit une image comme image principale du produit.
     /// Retire le statut principal de toutes les autres images.
     /// </summary>
