@@ -3,7 +3,7 @@ namespace Phoenix.Application.Products.Dtos;
 /// <summary>
 /// Représentation allégée d'un produit utilisée dans les réponses de liste catalogue.
 /// </summary>
-public sealed class ProductSummaryDto
+public class ProductSummaryDto
 {
     /// <summary>Identifiant du produit.</summary>
     public Guid Id { get; set; }

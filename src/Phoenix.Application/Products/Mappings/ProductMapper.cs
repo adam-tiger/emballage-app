@@ -52,9 +52,9 @@ public sealed partial class ProductMapper
         Use = nameof(MapFamilyToString))]
     [MapProperty(nameof(Product.Family), nameof(ProductSummaryDto.FamilyLabel),
         Use = nameof(MapFamilyToLabel))]
-    [MapperIgnore(nameof(ProductSummaryDto.MainImageUrl))]
-    [MapperIgnore(nameof(ProductSummaryDto.MinUnitPriceHT))]
-    [MapperIgnore(nameof(ProductSummaryDto.MinimumOrderQuantity))]
+    [MapperIgnoreTarget(nameof(ProductSummaryDto.MainImageUrl))]
+    [MapperIgnoreTarget(nameof(ProductSummaryDto.MinUnitPriceHT))]
+    [MapperIgnoreTarget(nameof(ProductSummaryDto.MinimumOrderQuantity))]
     public partial ProductSummaryDto ToSummaryDtoCore(Product product);
 
     /// <summary>
@@ -78,11 +78,11 @@ public sealed partial class ProductMapper
         Use = nameof(MapFamilyToString))]
     [MapProperty(nameof(Product.Family), nameof(ProductDetailDto.FamilyLabel),
         Use = nameof(MapFamilyToLabel))]
-    [MapperIgnore(nameof(ProductDetailDto.MainImageUrl))]
-    [MapperIgnore(nameof(ProductDetailDto.MinUnitPriceHT))]
-    [MapperIgnore(nameof(ProductDetailDto.MinimumOrderQuantity))]
-    [MapperIgnore(nameof(ProductDetailDto.Variants))]
-    [MapperIgnore(nameof(ProductDetailDto.Images))]
+    [MapperIgnoreTarget(nameof(ProductDetailDto.MainImageUrl))]
+    [MapperIgnoreTarget(nameof(ProductDetailDto.MinUnitPriceHT))]
+    [MapperIgnoreTarget(nameof(ProductDetailDto.MinimumOrderQuantity))]
+    [MapperIgnoreTarget(nameof(ProductDetailDto.Variants))]
+    [MapperIgnoreTarget(nameof(ProductDetailDto.Images))]
     public partial ProductDetailDto ToDetailDtoCore(Product product);
 
     /// <summary>
