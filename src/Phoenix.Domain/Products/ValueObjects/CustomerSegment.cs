@@ -1,41 +1,40 @@
-namespace Phoenix.Domain.Catalog.ValueObjects;
+namespace Phoenix.Domain.Products.ValueObjects;
+
+// PostgreSQL : stocké en string via HasConversion<string>()
 
 /// <summary>
-/// Segment client cible pour lequel un produit est principalement adapté (10 segments).
+/// Segment client cible d'un produit du catalogue Phoenix (10 segments).
+/// Permet de filtrer et personnaliser l'offre selon le type d'établissement.
 /// </summary>
-/// <remarks>
-/// Stocké en base PostgreSQL sous forme de colonne <c>varchar</c> via
-/// <c>.HasConversion&lt;string&gt;()</c> dans la configuration EF Core.
-/// </remarks>
 public enum CustomerSegment
 {
-    /// <summary>Artisans et auto-entrepreneurs (volumes très faibles).</summary>
-    Artisan,
+    /// <summary>Restauration rapide et fast-food — Fast-food.</summary>
+    FastFood,
 
-    /// <summary>Commerce de détail (boutiques, épiceries fines, etc.).</summary>
-    CommerceDetail,
+    /// <summary>Boulangerie, pâtisserie, viennoiserie — Boulangerie / Pâtisserie.</summary>
+    BakeryPastry,
 
-    /// <summary>Commerce de gros (cash &amp; carry, négoce).</summary>
-    CommerceGros,
+    /// <summary>Restauration japonaise, asiatique, poké — Japonais / Asiatique.</summary>
+    JapaneseAsian,
 
-    /// <summary>Petites et moyennes entreprises (10–250 salariés).</summary>
-    PME,
+    /// <summary>Salon de thé bubble tea, smoothies — Bubble Tea.</summary>
+    BubbleTea,
 
-    /// <summary>Entreprises de taille intermédiaire (250–5 000 salariés).</summary>
-    ETI,
+    /// <summary>Commerce de détail alimentaire, épicerie fine — Commerce de détail.</summary>
+    RetailCommerce,
 
-    /// <summary>Grands comptes et groupes (> 5 000 salariés).</summary>
-    GrandCompte,
+    /// <summary>Food truck et restauration nomade — Food Truck.</summary>
+    FoodTruck,
 
-    /// <summary>Distributeurs revendant les emballages Phoenix sous leur propre marque.</summary>
-    Distributeur,
+    /// <summary>Traiteur, buffet, service événementiel — Traiteur.</summary>
+    Catering,
 
-    /// <summary>Grossistes approvisionnant d'autres revendeurs.</summary>
-    Grossiste,
+    /// <summary>Chocolaterie, confiserie, sucrerie artisanale — Chocolaterie / Confiserie.</summary>
+    ChocolateConfectionery,
 
-    /// <summary>Revendeurs spécialisés emballage (courtiers, agents).</summary>
-    Revendeur,
+    /// <summary>Pizzeria et livraison de pizzas — Pizzeria.</summary>
+    PizzaShop,
 
-    /// <summary>Industriels avec besoins de conditionnement récurrents et volumes élevés.</summary>
-    Industrie
+    /// <summary>Autre type d'établissement non listé — Autre.</summary>
+    Other
 }

@@ -1,93 +1,91 @@
-namespace Phoenix.Domain.Catalog.ValueObjects;
+namespace Phoenix.Domain.Products.ValueObjects;
+
+// PostgreSQL : stocké en string via HasConversion<string>()
 
 /// <summary>
-/// Famille de produits du catalogue Phoenix (27 familles).
+/// Famille de produits du catalogue Phoenix Emballage (27 familles).
+/// Chaque valeur correspond à une ligne de produits avec ses caractéristiques propres.
 /// </summary>
-/// <remarks>
-/// Stocké en base PostgreSQL sous forme de colonne <c>varchar</c> via
-/// <c>.HasConversion&lt;string&gt;()</c> dans la configuration EF Core.
-/// Toute nouvelle famille doit être ajoutée ici ET dans la migration correspondante.
-/// </remarks>
 public enum ProductFamily
 {
-    /// <summary>Boîtes pliantes en carton.</summary>
-    BoitePliante,
+    /// <summary>Sac kraft avec anses torsadées — Sac à anses torsadées.</summary>
+    KraftBagHandled,
 
-    /// <summary>Boîtes rigides (carton contrecollé).</summary>
-    BoiteRigide,
+    /// <summary>Sac kraft SOS à fond carré — Sac SOS fond carré.</summary>
+    KraftBagSOS,
 
-    /// <summary>Boîtes d'expédition / caisses américaines.</summary>
-    BoiteExpedition,
+    /// <summary>Gamme gastronomique premium — Gamme traiteur.</summary>
+    GourmetRange,
 
-    /// <summary>Sacs papier à anses torsadées.</summary>
-    SacPapierTorsade,
+    /// <summary>Bol kraft rond pour plats chauds — Bol kraft.</summary>
+    KraftBowl,
 
-    /// <summary>Sacs papier à anses plates.</summary>
-    SacPapierPlat,
+    /// <summary>Papier siliconé antigraisse — Papier antigraisse.</summary>
+    GreaseproofPaper,
 
-    /// <summary>Sacs en plastique (PEBD, PP, etc.).</summary>
-    SacPlastique,
+    /// <summary>Bol chirashi rectangulaire pour sushis/poké — Bol chirashi.</summary>
+    ChirashiBowl,
 
-    /// <summary>Sachets refermables avec zip.</summary>
-    SachetZip,
+    /// <summary>Barquette à charnière en carton — Barquette charnière.</summary>
+    HingedTray,
 
-    /// <summary>Sachets stand-up (Doypack).</summary>
-    SachetStandUp,
+    /// <summary>Plateau à sushis avec couvercle transparent — Plateau sushis.</summary>
+    SushiTray,
 
-    /// <summary>Sachets cellophane / OPP transparents.</summary>
-    SachetCellophane,
+    /// <summary>Plateau micro-ondable pour plats préparés — Plateau micro.</summary>
+    MicroTray,
 
-    /// <summary>Enveloppes matelassées (bulles d'air ou kraft moulé).</summary>
-    EnveloppeMatelassee,
+    /// <summary>Emballage biodégradable certifié compostable — Emballage bio.</summary>
+    BioPack,
 
-    /// <summary>Enveloppes kraft auto-adhésives.</summary>
-    EnveloppeKraft,
+    /// <summary>Sachet kraft pour pâtes et féculents — Sachet pâtes.</summary>
+    PastaPouch,
 
-    /// <summary>Tubes en carton (ronds ou ovales).</summary>
-    TubeCarton,
+    /// <summary>Sachet isolant pour soupes et potages — Sachet soupe.</summary>
+    SoupPouch,
 
-    /// <summary>Étuis carton plat (sleeve / fourreaux).</summary>
-    EtuiCarton,
+    /// <summary>Sachet pour sauces et condiments — Sachet sauce.</summary>
+    SaucePouch,
 
-    /// <summary>Pochettes de présentation / intercalaires.</summary>
-    PochettePresentation,
+    /// <summary>Cornet en papier pour frites et snacks — Cornet frites.</summary>
+    FriesCone,
 
-    /// <summary>Papier de soie pour garnissage.</summary>
-    PapierTissu,
+    /// <summary>Gobelet isolant pour milkshakes — Gobelet milkshake.</summary>
+    MilkshakeCup,
 
-    /// <summary>Papier kraft en feuille ou en rouleau.</summary>
-    PapierKraft,
+    /// <summary>Gobelet en carton pour boissons chaudes — Gobelet café.</summary>
+    CoffeeCup,
 
-    /// <summary>Ruban adhésif transparent, kraft ou coloré.</summary>
-    RubanAdhesif,
+    /// <summary>Pot en carton pour desserts et glaces — Pot dessert.</summary>
+    DessertPot,
 
-    /// <summary>Ruban imprimé personnalisé (logo, texte).</summary>
-    RubanImprime,
+    /// <summary>Boîte à pizza en carton ondulé — Boîte pizza.</summary>
+    PizzaBox,
 
-    /// <summary>Étiquettes autocollantes (fond blanc, kraft, holographiques…).</summary>
-    EtiquetteAutocollante,
+    /// <summary>Sac antigraisse pour viennoiseries et beignets — Sac antigraisse.</summary>
+    GreaseproofBag,
 
-    /// <summary>Film étirable pour palettisation.</summary>
-    FilmEtirable,
+    /// <summary>Sachet pour sandwichs et bagels — Sachet sandwich.</summary>
+    SandwichBag,
 
-    /// <summary>Film rétractable thermorétractable.</summary>
-    FilmRetractable,
+    /// <summary>Sac réutilisable en coton ou non-tissé — Sac réutilisable.</summary>
+    ReusableBag,
 
-    /// <summary>Mousses et calages de protection (mousse PE, mousse polyuréthane).</summary>
-    MousseCalage,
+    /// <summary>Serviette en papier pour couverts — Serviette.</summary>
+    Napkin,
 
-    /// <summary>Papier bulle (film à bulles d'air).</summary>
-    PapierBulle,
+    /// <summary>Couverts en bois (fourchette, couteau, cuillère) — Couverts bois.</summary>
+    WoodenCutlery,
 
-    /// <summary>Intercalaires et alvéoles carton.</summary>
-    IntercalaireCarton,
+    /// <summary>Bouteille en plastique ou verre pour boissons — Bouteille.</summary>
+    Bottle,
 
-    /// <summary>Carton ondulé simple ou double cannelure.</summary>
-    CartonOndule,
+    /// <summary>Sac poubelle pour restauration — Sac poubelle.</summary>
+    GarbageBag,
 
-    /// <summary>Plateaux de présentation et présentoirs.</summary>
-    PlateauPresentation,
+    /// <summary>Film alimentaire pour emballage comptoir — Film alimentaire.</summary>
+    FoodWrap,
 
-    /// <summary>Accessoires d'emballage divers (sangles, boucles, coins, etc.).</summary>
-    Accessoire
+    /// <summary>Articles d'hygiène divers (gants, charlotte, tablier…) — Hygiène divers.</summary>
+    HygieneMisc
 }
