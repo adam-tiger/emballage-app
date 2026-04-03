@@ -1,17 +1,22 @@
-namespace Phoenix.Domain.Catalog.ValueObjects;
+namespace Phoenix.Domain.Products.ValueObjects;
+
+// PostgreSQL : stocké en string via HasConversion<string>()
 
 /// <summary>
-/// Face(s) imprimée(s) sur un produit personnalisé.
+/// Face(s) imprimée(s) d'un produit personnalisé.
+/// Le coefficient appliqué au prix de base est indiqué pour chaque valeur.
 /// </summary>
-/// <remarks>
-/// Stocké en base PostgreSQL sous forme de colonne <c>varchar</c> via
-/// <c>.HasConversion&lt;string&gt;()</c> dans la configuration EF Core.
-/// </remarks>
 public enum PrintSide
 {
-    /// <summary>Impression recto uniquement.</summary>
+    /// <summary>
+    /// Impression recto uniquement.
+    /// Coefficient de prix : <c>1.00</c> (pas de surcoût).
+    /// </summary>
     SingleSide,
 
-    /// <summary>Impression recto-verso.</summary>
+    /// <summary>
+    /// Impression recto-verso.
+    /// Coefficient de prix : <c>1.15</c> (+15 % sur le prix de base).
+    /// </summary>
     DoubleSide
 }

@@ -1,40 +1,65 @@
-using Phoenix.Domain.Catalog.ValueObjects;
-using Phoenix.Domain.Common.Primitives;
+using Phoenix.Domain.Products.Exceptions;
 
-namespace Phoenix.Domain.Catalog.Entities;
+namespace Phoenix.Domain.Products.Entities;
 
 /// <summary>
-/// Palier tarifaire d'un produit.
-/// Un produit possède une liste ordonnée de paliers couvrant l'ensemble des quantités possibles.
+/// Palier tarifaire associé à une variante de produit.
+/// Définit le prix unitaire HT applicable pour une plage de quantités commandées.
 /// </summary>
 /// <remarks>
 /// <b>Invariants métier :</b>
 /// <list type="bullet">
 ///   <item><see cref="MinQuantity"/> >= 1.</item>
-///   <item>Quand <see cref="MaxQuantity"/> est renseigné, il doit être > <see cref="MinQuantity"/>.</item>
-///   <item><see cref="UnitPriceHT"/> doit être strictement positif.</item>
+///   <item>Si <see cref="MaxQuantity"/> est renseigné, il doit être > <see cref="MinQuantity"/>.</item>
+///   <item><see cref="UnitPriceHT"/> doit être strictement positif (&gt; 0).</item>
 /// </list>
-/// La cohérence inter-paliers (pas de chevauchement, pas de trou) est vérifiée
-/// dans l'agrégat <see cref="Aggregates.Product"/>.
+/// La non-collision entre paliers est vérifiée dans <see cref="ProductVariant.AddPriceTier"/>.
 /// </remarks>
-public sealed class PriceTier : Entity
+public sealed class PriceTier
 {
     /// <summary>
-    /// Constructeur sans paramètre réservé à EF Core.
+    /// Constructeur public avec validation des invariants métier.
     /// </summary>
-    private PriceTier() { }
-
-    private PriceTier(Guid id, Guid productId, int minQuantity, int? maxQuantity, Money unitPriceHT)
-        : base(id)
+    /// <param name="id">Identifiant unique du palier.</param>
+    /// <param name="productVariantId">Identifiant de la variante parente.</param>
+    /// <param name="minQuantity">Quantité minimale inclusive (>= 1).</param>
+    /// <param name="maxQuantity">Quantité maximale inclusive (null = illimité).</param>
+    /// <param name="unitPriceHT">Prix unitaire HT en euros (doit être > 0).</param>
+    public PriceTier(Guid id, Guid productVariantId, int minQuantity, int? maxQuantity, decimal unitPriceHT)
     {
-        ProductId = productId;
+        if (id == Guid.Empty)
+            throw new ArgumentException("L'identifiant du palier ne peut pas être vide.", nameof(id));
+
+        if (productVariantId == Guid.Empty)
+            throw new ArgumentException("L'identifiant de la variante ne peut pas être vide.", nameof(productVariantId));
+
+        if (minQuantity < 1)
+            throw new ProductDomainException(
+                ProductDomainException.InvalidPriceTier,
+                $"La quantité minimale doit être >= 1 (valeur : {minQuantity}).");
+
+        if (maxQuantity.HasValue && maxQuantity.Value <= minQuantity)
+            throw new ProductDomainException(
+                ProductDomainException.InvalidPriceTier,
+                $"La quantité maximale ({maxQuantity}) doit être > quantité minimale ({minQuantity}).");
+
+        if (unitPriceHT <= 0)
+            throw new ProductDomainException(
+                ProductDomainException.InvalidPriceTier,
+                $"Le prix unitaire HT doit être strictement positif (valeur : {unitPriceHT}).");
+
+        Id = id;
+        ProductVariantId = productVariantId;
         MinQuantity = minQuantity;
         MaxQuantity = maxQuantity;
         UnitPriceHT = unitPriceHT;
     }
 
-    /// <summary>Identifiant du produit auquel ce palier appartient.</summary>
-    public Guid ProductId { get; private set; }
+    /// <summary>Identifiant unique du palier tarifaire.</summary>
+    public Guid Id { get; private set; }
+
+    /// <summary>Identifiant de la variante produit à laquelle ce palier est rattaché.</summary>
+    public Guid ProductVariantId { get; private set; }
 
     /// <summary>
     /// Quantité minimale (incluse) à partir de laquelle ce palier s'applique.
@@ -44,73 +69,26 @@ public sealed class PriceTier : Entity
 
     /// <summary>
     /// Quantité maximale (incluse) jusqu'à laquelle ce palier s'applique.
-    /// <c>null</c> signifie « sans plafond » (dernier palier de la gamme).
+    /// <c>null</c> = sans plafond (dernier palier de la gamme).
     /// </summary>
     public int? MaxQuantity { get; private set; }
 
     /// <summary>
-    /// Prix unitaire hors-taxes pour ce palier.
+    /// Prix unitaire hors-taxes en euros pour ce palier.
     /// Doit être strictement positif.
     /// </summary>
-    public Money UnitPriceHT { get; private set; } = Money.Zero;
+    public decimal UnitPriceHT { get; private set; }
 
-    // ----- Factory method -----
-
-    /// <summary>
-    /// Crée un palier tarifaire après validation des invariants.
-    /// </summary>
-    /// <param name="productId">Identifiant du produit parent.</param>
-    /// <param name="minQuantity">Quantité minimale (>= 1).</param>
-    /// <param name="maxQuantity">Quantité maximale (optionnelle, null = illimité).</param>
-    /// <param name="unitPriceHT">Prix unitaire HT (doit être > 0).</param>
-    public static PriceTier Create(Guid productId, int minQuantity, int? maxQuantity, Money unitPriceHT)
-    {
-        if (productId == Guid.Empty)
-            throw new ArgumentException("Le productId ne peut pas être vide.", nameof(productId));
-
-        if (minQuantity < 1)
-            throw new ArgumentOutOfRangeException(nameof(minQuantity),
-                $"La quantité minimale doit être >= 1 (valeur : {minQuantity}).");
-
-        if (maxQuantity.HasValue && maxQuantity.Value <= minQuantity)
-            throw new ArgumentOutOfRangeException(nameof(maxQuantity),
-                $"La quantité maximale ({maxQuantity}) doit être > quantité minimale ({minQuantity}).");
-
-        if (unitPriceHT is null)
-            throw new ArgumentNullException(nameof(unitPriceHT));
-
-        if (unitPriceHT.Amount <= 0)
-            throw new ArgumentOutOfRangeException(nameof(unitPriceHT),
-                $"Le prix unitaire HT doit être strictement positif (valeur : {unitPriceHT}).");
-
-        return new PriceTier(
-            id: Guid.CreateVersion7(),
-            productId: productId,
-            minQuantity: minQuantity,
-            maxQuantity: maxQuantity,
-            unitPriceHT: unitPriceHT);
-    }
-
-    // ----- Méthodes métier -----
+    // ── Méthodes métier ─────────────────────────────────────────────────────
 
     /// <summary>
-    /// Vérifie si une quantité donnée tombe dans ce palier.
+    /// Vérifie si une quantité donnée est couverte par ce palier tarifaire.
     /// </summary>
-    public bool Covers(int quantity) =>
-        quantity >= MinQuantity && (!MaxQuantity.HasValue || quantity <= MaxQuantity.Value);
-
-    /// <summary>
-    /// Met à jour le prix unitaire HT. Le nouveau prix doit être > 0.
-    /// </summary>
-    public void UpdatePrice(Money newUnitPriceHT)
-    {
-        if (newUnitPriceHT is null)
-            throw new ArgumentNullException(nameof(newUnitPriceHT));
-
-        if (newUnitPriceHT.Amount <= 0)
-            throw new ArgumentOutOfRangeException(nameof(newUnitPriceHT),
-                $"Le prix unitaire HT doit être strictement positif (valeur : {newUnitPriceHT}).");
-
-        UnitPriceHT = newUnitPriceHT;
-    }
+    /// <param name="quantity">Quantité à tester.</param>
+    /// <returns>
+    /// <c>true</c> si <paramref name="quantity"/> >= <see cref="MinQuantity"/> et
+    /// (<see cref="MaxQuantity"/> est null ou <paramref name="quantity"/> &lt;= <see cref="MaxQuantity"/>).
+    /// </returns>
+    public bool Matches(int quantity) =>
+        quantity >= MinQuantity && (MaxQuantity == null || quantity <= MaxQuantity.Value);
 }
