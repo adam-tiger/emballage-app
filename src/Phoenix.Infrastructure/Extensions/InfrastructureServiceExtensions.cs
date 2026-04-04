@@ -7,6 +7,7 @@ using Phoenix.Infrastructure.Persistence;
 using Phoenix.Infrastructure.Repositories;
 using Phoenix.Infrastructure.Services;
 using Phoenix.Infrastructure.Storage;
+using MediatR;
 
 namespace Phoenix.Infrastructure.Extensions;
 
@@ -63,6 +64,10 @@ public static class InfrastructureServiceExtensions
 
         // ── Image Processing (SkiaSharp) ─────────────────────────────────────
         services.AddScoped<IImageProcessingService, ImageProcessingService>();
+        
+        // ── MediatR ───────────────────────────────────────────────────────────
+        services.AddMediatR(cfg => 
+            cfg.RegisterServicesFromAssembly(typeof(PhoenixDbContext).Assembly));
 
         return services;
     }

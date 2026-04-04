@@ -100,7 +100,20 @@ internal sealed class ImageProcessingService : IImageProcessingService
         var newWidth  = (int)(original.Width  * factor);
         var newHeight = (int)(original.Height * factor);
 
-        return original.Resize(new SKImageInfo(newWidth, newHeight), SKFilterQuality.High);
+        var info = new SKImageInfo(newWidth, newHeight, original.ColorType, original.AlphaType);
+        var resizedBitmap = new SKBitmap(info);
+
+        using var canvas = new SKCanvas(resizedBitmap);
+        canvas.Clear(SKColors.Transparent);
+
+        // Utiliser SKImage pour le redimensionnement avec SKSamplingOptions
+        using var image = SKImage.FromBitmap(original);
+        var destRect = SKRect.Create(0, 0, newWidth, newHeight);
+        var samplingOptions = new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.Linear);
+
+        canvas.DrawImage(image, destRect, samplingOptions);
+
+        return resizedBitmap;
     }
 
     /// <summary>
