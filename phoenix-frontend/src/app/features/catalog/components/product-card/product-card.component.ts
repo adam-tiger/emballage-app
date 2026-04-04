@@ -4,6 +4,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { ProductSummary } from '../../models/product-summary.model';
 import { formatEur } from '../../models/price-tier.model';
 import { ProductBadgeComponent } from '../product-badge/product-badge.component';
+import { getPlaceholderImageUrl } from '../../../../shared/services/images.service';
 
 @Component({
   selector: 'app-product-card',
@@ -65,6 +66,6 @@ export class ProductCardComponent {
   });
 
   readonly imageSrc = computed(() =>
-    this.product().mainImageUrl ?? '/assets/images/product-placeholder.webp'
+    this.product().mainImageUrl ?? getPlaceholderImageUrl()
   );
 }

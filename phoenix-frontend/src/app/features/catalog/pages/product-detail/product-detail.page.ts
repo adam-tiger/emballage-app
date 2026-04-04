@@ -4,6 +4,7 @@ import { ProductCatalogService } from '../../services/product-catalog.service';
 import { ProductBadgeComponent } from '../../components/product-badge/product-badge.component';
 import { VariantSelectorComponent } from '../../components/variant-selector/variant-selector.component';
 import { ProductVariant } from '../../models/product-variant.model';
+import { getPlaceholderImageUrl } from '../../../../shared/services/images.service';
 
 @Component({
   selector: 'app-product-detail-page',
@@ -130,14 +131,14 @@ export class ProductDetailPage implements OnInit {
 
   readonly mainImageUrl = computed(() => {
     const p = this.product();
-    if (!p) return '/assets/images/product-placeholder.webp';
+    if (!p) return getPlaceholderImageUrl();
     const sid = this.selectedImageId();
     if (sid) {
       return p.images.find(i => i.id === sid)?.publicUrl
         ?? p.mainImageUrl
-        ?? '/assets/images/product-placeholder.webp';
+        ?? getPlaceholderImageUrl();
     }
-    return p.mainImageUrl ?? '/assets/images/product-placeholder.webp';
+    return p.mainImageUrl ?? getPlaceholderImageUrl();
   });
 
   ngOnInit(): void {
