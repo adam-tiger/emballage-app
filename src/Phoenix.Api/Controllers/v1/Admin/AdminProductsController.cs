@@ -29,10 +29,10 @@ public sealed class AdminProductsController(IMediator mediator) : ControllerBase
     // ── Corps de requête pour les opérations avec paramètres de route ────────
 
     /// <summary>Corps de requête pour la mise à jour d'un produit.</summary>
-    private sealed record UpdateProductBody(string NameFr, string DescriptionFr);
+    public sealed record UpdateProductBody(string NameFr, string DescriptionFr);
 
     /// <summary>Corps de requête pour l'ajout d'une variante d'impression.</summary>
-    private sealed record AddProductVariantBody(
+    public sealed record AddProductVariantBody(
         string Sku,
         string NameFr,
         int MinimumOrderQuantity,
@@ -40,7 +40,7 @@ public sealed class AdminProductsController(IMediator mediator) : ControllerBase
         ColorCount ColorCount);
 
     /// <summary>Corps de requête pour l'ajout d'un palier tarifaire.</summary>
-    private sealed record AddPriceTierBody(
+    public sealed record AddPriceTierBody(
         int MinQuantity,
         int? MaxQuantity,
         decimal UnitPriceHT);

@@ -3,7 +3,6 @@ using Phoenix.Api.Extensions;
 using Phoenix.Infrastructure.Extensions;
 using Phoenix.Infrastructure.Persistence;
 using Serilog;
-using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +13,7 @@ builder.Host.UseSerilog((context, config) =>
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .Enrich.WithMachineName()
+        .Enrich.WithEnvironmentName() // Ajout de l'enrichisseur d'environnement
         .WriteTo.Console(outputTemplate:
             "[{Timestamp:HH:mm:ss} {Level:u3}] {CorrelationId} {Message:lj}{NewLine}{Exception}");
 

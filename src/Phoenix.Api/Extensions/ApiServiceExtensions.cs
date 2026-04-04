@@ -1,14 +1,14 @@
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Phoenix.Application.Common.Behaviors;
 using Phoenix.Application.Products.Commands.CreateProduct;
+using Phoenix.Application.Products.Mappings;
 
 namespace Phoenix.Api.Extensions;
 
@@ -27,7 +27,7 @@ public static class ApiServiceExtensions
     ///   <item>MediatR — handlers + pipeline behaviors (Validation, Logging, Performance).</item>
     ///   <item>FluentValidation — scan automatique de l'assemblée Application.</item>
     ///   <item>Controllers — JSON camelCase, enums en string.</item>
-    ///   <item>Swagger / OpenAPI — avec support JWT Bearer.</item>
+    ///   <item>OpenAPI natif .NET 10 — avec support JWT Bearer via Scalar.</item>
     ///   <item>CORS — politique <c>PhoenixCors</c> basée sur <c>App:AllowedOrigins</c>.</item>
     ///   <item>JWT Authentication — paramètres depuis <c>Jwt:*</c>.</item>
     ///   <item>Authorization.</item>
@@ -53,6 +53,9 @@ public static class ApiServiceExtensions
         // ── FluentValidation — scan automatique ──────────────────────────────
         services.AddValidatorsFromAssembly(applicationAssembly);
 
+        // ── Mapperly Mappers ─────────────────────────────────────────────────
+        services.AddSingleton<ProductMapper>();
+
         // ── Controllers — JSON camelCase + enums en string ───────────────────
         services.AddControllers()
             .AddJsonOptions(options =>
@@ -61,49 +64,8 @@ public static class ApiServiceExtensions
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
 
-        // ── Swagger / OpenAPI ────────────────────────────────────────────────
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title       = "Phoenix Emballages API",
-                Version     = "v1",
-                Description = "API e-commerce emballages personnalisés"
-            });
-
-            // JWT Bearer dans l'interface Swagger
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name        = "Authorization",
-                Type        = SecuritySchemeType.Http,
-                Scheme      = "bearer",
-                BearerFormat = "JWT",
-                In          = ParameterLocation.Header,
-                Description = "JWT Authorization. Format: Bearer {token}"
-            });
-
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id   = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-
-            // Commentaires XML pour enrichir la documentation Swagger
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            if (File.Exists(xmlPath))
-                c.IncludeXmlComments(xmlPath);
-        });
+        // ── OpenAPI natif .NET 10 ────────────────────────────────────────────
+        services.AddOpenApi();
 
         // ── CORS ─────────────────────────────────────────────────────────────
         services.AddCors(options =>

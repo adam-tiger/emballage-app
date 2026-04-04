@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.OpenApi;
 using Phoenix.Api.Middleware;
+using Scalar.AspNetCore;
 
 namespace Phoenix.Api.Extensions;
 
@@ -12,7 +14,7 @@ public static class ApplicationBuilderExtensions
     /// <list type="ordered">
     ///   <item><see cref="CorrelationIdMiddleware"/> — propagation du X-Correlation-Id.</item>
     ///   <item><see cref="ExceptionHandlingMiddleware"/> — gestion globale des exceptions.</item>
-    ///   <item>Swagger UI (environnement Development uniquement).</item>
+    ///   <item>OpenAPI endpoint + Scalar UI (environnement Development uniquement).</item>
     ///   <item>HTTPS Redirection.</item>
     ///   <item>CORS (<c>PhoenixCors</c>).</item>
     ///   <item>Authentication.</item>
@@ -31,11 +33,16 @@ public static class ApplicationBuilderExtensions
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            // OpenAPI endpoint natif .NET 10
+            app.MapOpenApi();
+
+            // Scalar UI — remplace Swagger UI
+            app.MapScalarApiReference(options =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Phoenix API v1");
-                c.RoutePrefix = "swagger";
+                options.Title = "Phoenix Emballages API";
+                options.Theme = ScalarTheme.DeepSpace;
+                options.DefaultHttpClient =
+                    new(ScalarTarget.CSharp, ScalarClient.HttpClient);
             });
         }
 
