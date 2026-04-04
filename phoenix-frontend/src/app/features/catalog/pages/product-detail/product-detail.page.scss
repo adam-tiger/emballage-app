@@ -1,0 +1,239 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 60px;
+  font-size: 13px;
+  color: var(--phoenix-muted);
+  background: var(--phoenix-bg);
+
+  a {
+    color: var(--phoenix-muted);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--phoenix-accent);
+    }
+  }
+
+  &__sep {
+    color: var(--phoenix-border);
+  }
+
+  span:last-child {
+    color: var(--phoenix-text);
+  }
+}
+
+// ── Skeleton ──────────────────────────────────────────────────────────────────
+
+.detail-skeleton {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 40px 60px;
+  animation: pulse 1.5s ease-in-out infinite;
+
+  &__image {
+    height: 480px;
+    background: var(--phoenix-surface2);
+    border-radius: 16px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 20px;
+  }
+
+  &__line {
+    height: 20px;
+    background: var(--phoenix-surface2);
+    border-radius: 6px;
+
+    &--short  { width: 40%; }
+    &--medium { width: 70%; }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+// ── Erreur ────────────────────────────────────────────────────────────────────
+
+.detail-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--phoenix-muted);
+  font-size: 15px;
+}
+
+.btn-back {
+  border: 1px solid var(--phoenix-accent);
+  color: var(--phoenix-accent);
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(232, 85, 42, 0.1);
+  }
+}
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  padding: 40px 60px 80px;
+  background: var(--phoenix-bg);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+// ── Galerie ───────────────────────────────────────────────────────────────────
+
+.detail-gallery {
+  &__main-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--phoenix-surface2);
+    aspect-ratio: 4 / 3;
+    margin-bottom: 12px;
+  }
+
+  &__main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__thumbs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  &__thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    background: var(--phoenix-surface2);
+
+    &:hover {
+      border-color: var(--phoenix-accent);
+    }
+
+    &--active {
+      border-color: var(--phoenix-accent);
+    }
+  }
+}
+
+// ── Infos ─────────────────────────────────────────────────────────────────────
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-family {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--phoenix-muted);
+}
+
+.detail-name {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--phoenix-text);
+  line-height: 1.2;
+}
+
+.detail-description {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--phoenix-muted);
+}
+
+.detail-variants {
+  padding: 20px;
+  background: var(--phoenix-surface);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 14px;
+}
+
+// ── CTAs ──────────────────────────────────────────────────────────────────────
+
+.detail-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: var(--phoenix-accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 15px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-align: center;
+
+  &:hover {
+    opacity: 0.88;
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--phoenix-text);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 10px;
+  padding: 15px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  text-align: center;
+
+  &:hover {
+    border-color: var(--phoenix-accent);
+    color: var(--phoenix-accent);
+  }
+}
+
+// ── Garanties ─────────────────────────────────────────────────────────────────
+
+.detail-guarantees {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--phoenix-border);
+}
+
+.guarantee {
+  font-size: 13px;
+  color: var(--phoenix-muted);
+}

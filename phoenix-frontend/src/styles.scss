@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+// ── Phoenix Design System — Variables CSS globales ────────────────────────────
+
+:root {
+  --phoenix-bg:       #0C0E13;
+  --phoenix-surface:  #13161E;
+  --phoenix-surface2: #1A1F2C;
+  --phoenix-border:   #252A38;
+  --phoenix-accent:   #E8552A;
+  --phoenix-accent2:  #F5A623;
+  --phoenix-text:     #E8E6E1;
+  --phoenix-muted:    #6B7585;
+  --phoenix-success:  #22C55E;
+}
+
+// ── Reset de base ─────────────────────────────────────────────────────────────
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  background: var(--phoenix-bg);
+  color: var(--phoenix-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+}

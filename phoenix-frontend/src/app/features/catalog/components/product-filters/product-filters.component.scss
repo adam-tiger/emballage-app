@@ -1,0 +1,107 @@
+.filters-panel {
+  background: var(--phoenix-surface);
+  border-right: 1px solid var(--phoenix-border);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.filters-section {
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--phoenix-border);
+
+  &__title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--phoenix-muted);
+    margin-bottom: 12px;
+  }
+
+  &--reset {
+    border-bottom: none;
+  }
+}
+
+.filters-search {
+  width: 100%;
+  background: var(--phoenix-surface2);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--phoenix-text);
+  outline: none;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: var(--phoenix-muted);
+  }
+
+  &:focus {
+    border-color: var(--phoenix-accent);
+  }
+}
+
+.filters-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filters-chip {
+  background: var(--phoenix-surface2);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--phoenix-text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--phoenix-accent);
+    color: var(--phoenix-accent);
+  }
+
+  &--active {
+    background: rgba(232, 85, 42, 0.1);
+    border-color: var(--phoenix-accent);
+    color: var(--phoenix-accent);
+    font-weight: 600;
+  }
+}
+
+.filters-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--phoenix-text);
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--phoenix-accent);
+    cursor: pointer;
+  }
+}
+
+.filters-reset {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--phoenix-border);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  color: var(--phoenix-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--phoenix-accent);
+    color: var(--phoenix-accent);
+  }
+}
