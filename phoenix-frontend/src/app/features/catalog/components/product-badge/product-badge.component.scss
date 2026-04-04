@@ -1,0 +1,51 @@
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  &--sm .badge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+
+  &--gourmet {
+    background: rgba(232, 85, 42, 0.12);
+    color: var(--phoenix-accent);
+  }
+
+  &--custom {
+    background: rgba(56, 189, 248, 0.12);
+    color: #38BDF8;
+  }
+
+  &--express {
+    background: rgba(239, 68, 68, 0.12);
+    color: #EF4444;
+  }
+
+  &--eco {
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--phoenix-success);
+  }
+
+  &--food {
+    background: rgba(107, 117, 133, 0.12);
+    color: var(--phoenix-muted);
+  }
+
+  &--weight {
+    background: rgba(245, 166, 35, 0.12);
+    color: var(--phoenix-accent2);
+  }
+}

@@ -1,0 +1,116 @@
+.variant-selector {
+  &__variants {
+    margin-bottom: 20px;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--phoenix-muted);
+  }
+
+  &__print {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  &__quantity {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--phoenix-surface2);
+    border: 1px solid var(--phoenix-border);
+    border-radius: 10px;
+    margin-top: 16px;
+  }
+}
+
+.variant-btn {
+  background: var(--phoenix-surface2);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--phoenix-text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover {
+    border-color: var(--phoenix-accent);
+  }
+
+  &--active {
+    background: rgba(232, 85, 42, 0.1);
+    border-color: var(--phoenix-accent);
+    color: var(--phoenix-accent);
+    font-weight: 600;
+  }
+}
+
+.print-tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--phoenix-surface2);
+  color: var(--phoenix-muted);
+  border: 1px solid var(--phoenix-border);
+
+  &--exclusive {
+    color: var(--phoenix-accent2);
+    background: rgba(245, 166, 35, 0.1);
+    border-color: var(--phoenix-accent2);
+    font-weight: 600;
+  }
+}
+
+.quantity-input {
+  background: var(--phoenix-surface2);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: var(--phoenix-text);
+  width: 160px;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: var(--phoenix-accent);
+  }
+}
+
+.quantity-error {
+  font-size: 12px;
+  color: #EF4444;
+}
+
+.total-label {
+  font-size: 14px;
+  color: var(--phoenix-muted);
+  font-weight: 600;
+}
+
+.total-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--phoenix-accent);
+}
