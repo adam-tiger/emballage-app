@@ -1,0 +1,74 @@
+.variant-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  &__tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: var(--phoenix-surface2);
+    color: var(--phoenix-muted);
+    border: 1px solid var(--phoenix-border);
+  }
+}
+
+.tier-list {
+  margin-bottom: 8px;
+
+  &__title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--phoenix-muted);
+    margin-bottom: 8px;
+  }
+
+  &__empty {
+    font-size: 13px;
+    color: var(--phoenix-muted);
+    font-style: italic;
+    padding: 8px 0;
+  }
+}
+
+.tier-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--phoenix-border);
+  font-size: 13px;
+
+  &__range {
+    color: var(--phoenix-muted);
+  }
+
+  &__price {
+    font-weight: 700;
+    color: var(--phoenix-accent);
+  }
+}
+
+.variant-form {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+}
+
+.admin-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--phoenix-muted);
+  }
+}

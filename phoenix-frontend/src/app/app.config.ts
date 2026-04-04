@@ -3,6 +3,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes';
 
@@ -40,6 +41,8 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([errorInterceptor, loadingInterceptor])
     ),
+    MessageService,
+    ConfirmationService,
     providePrimeNG({
       theme: {
         preset: PhoenixTheme,

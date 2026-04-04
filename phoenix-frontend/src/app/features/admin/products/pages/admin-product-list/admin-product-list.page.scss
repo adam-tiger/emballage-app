@@ -1,0 +1,42 @@
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.admin-page-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--phoenix-text);
+}
+
+.admin-page-sub {
+  display: block;
+  font-size: 13px;
+  color: var(--phoenix-muted);
+  margin-top: 3px;
+}
+
+.table-caption {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.table-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.table-empty {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--phoenix-muted);
+}
+
+.admin-loading {
+  display: flex;
+  justify-content: center;
+  padding: 60px;
+}

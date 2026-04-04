@@ -1,0 +1,45 @@
+.uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__current {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: fit-content;
+  }
+
+  &__preview {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--phoenix-border);
+  }
+
+  &__label {
+    font-size: 12px;
+    color: var(--phoenix-muted);
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    background: var(--phoenix-surface2);
+    border: 1px solid var(--phoenix-border);
+    border-radius: 8px;
+  }
+
+  &__filename {
+    font-size: 13px;
+    color: var(--phoenix-text);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

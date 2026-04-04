@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./features/catalog/catalog.routes').then(m => m.CATALOG_ROUTES)
   },
   {
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
