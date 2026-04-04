@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Phoenix.Domain.Products.Entities;
+using Phoenix.Domain.Products.ValueObjects;
 
 namespace Phoenix.Infrastructure.Persistence.Configurations;
 
@@ -44,7 +45,9 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Family)
             .IsRequired()
-            .HasConversion<string>()
+            .HasConversion(
+                v => v.ToString(),
+                v => (ProductFamily)Enum.Parse(typeof(ProductFamily), v))
             .HasMaxLength(50);
 
         builder.Property(p => p.IsCustomizable).IsRequired();
