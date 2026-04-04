@@ -6,7 +6,7 @@ import { PriceTier, formatEur, getPriceForQuantity } from '../../models/price-ti
   selector: 'app-price-tier-display',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass],
+  imports: [],
   template: `
     <div class="price-tiers">
       <div class="price-tiers__title">Tarifs dégressifs</div>

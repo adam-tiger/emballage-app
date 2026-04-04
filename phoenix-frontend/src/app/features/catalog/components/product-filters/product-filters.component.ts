@@ -9,7 +9,6 @@ import {
   signal
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormsModule, NgClass } from '@angular/common';
 import { Subject, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { CustomerSegment, ProductFamilyDto } from '../../models/product-family.model';
@@ -20,7 +19,7 @@ import { CUSTOMER_SEGMENT_LABELS, CUSTOMER_SEGMENT_EMOJI } from '../../models/pr
   selector: 'app-product-filters',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, NgClass],
+  imports: [],
   template: `
     <div class="filters-panel">
 

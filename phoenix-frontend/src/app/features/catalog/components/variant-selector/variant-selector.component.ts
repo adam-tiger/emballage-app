@@ -7,7 +7,7 @@ import {
   output,
   signal
 } from '@angular/core';
-import { NgClass, FormsModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { PriceTierDisplayComponent } from '../price-tier-display/price-tier-display.component';
 import { ProductVariant, PRINT_SIDE_LABELS, COLOR_COUNT_LABELS } from '../../models/product-variant.model';
 import { PrintSide } from '../../models/product-family.model';
@@ -17,7 +17,7 @@ import { formatEur, getPriceForQuantity } from '../../models/price-tier.model';
   selector: 'app-variant-selector',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, FormsModule, PriceTierDisplayComponent],
+  imports: [ PriceTierDisplayComponent],
   template: `
     <!-- Sélection variante si plusieurs -->
     @if (variants().length > 1) {
