@@ -6,6 +6,8 @@ using Phoenix.Domain.Common.Interfaces;
 using Phoenix.Infrastructure.Persistence;
 using Phoenix.Infrastructure.Repositories;
 using Phoenix.Infrastructure.Services;
+using Phoenix.Infrastructure.Storage;
+using MediatR;
 
 namespace Phoenix.Infrastructure.Extensions;
 
@@ -26,6 +28,8 @@ public static class InfrastructureServiceExtensions
     ///   <item><see cref="IProductRepository"/> — repository EF Core.</item>
     ///   <item><see cref="ICurrentUserService"/> — résolution du JWT via IHttpContextAccessor.</item>
     ///   <item><see cref="IDateTimeService"/> — singleton retournant <c>DateTime.UtcNow</c>.</item>
+    ///   <item><see cref="IBlobStorageService"/> — Azure Blob Storage (images, logos, documents).</item>
+    ///   <item><see cref="IImageProcessingService"/> — traitement WebP via SkiaSharp 3.</item>
     /// </list>
     /// </remarks>
     /// <param name="services">Collection de services ASP.NET Core.</param>
@@ -51,6 +55,19 @@ public static class InfrastructureServiceExtensions
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IDateTimeService, DateTimeService>();
+
+        // ── Azure Blob Storage ───────────────────────────────────────────────
+        services.Configure<BlobStorageSettings>(
+            configuration.GetSection("Azure:BlobStorage"));
+
+        services.AddScoped<IBlobStorageService, AzureBlobStorageService>();
+
+        // ── Image Processing (SkiaSharp) ─────────────────────────────────────
+        services.AddScoped<IImageProcessingService, ImageProcessingService>();
+        
+        // ── MediatR ───────────────────────────────────────────────────────────
+        services.AddMediatR(cfg => 
+            cfg.RegisterServicesFromAssembly(typeof(PhoenixDbContext).Assembly));
 
         return services;
     }
