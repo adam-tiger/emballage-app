@@ -1,20 +1,47 @@
+using Microsoft.EntityFrameworkCore;
+using Phoenix.Api.Extensions;
 using Phoenix.Infrastructure.Extensions;
+using Phoenix.Infrastructure.Persistence;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ── Serilog ──────────────────────────────────────────────────────────────────
+builder.Host.UseSerilog((context, config) =>
+{
+    config
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .Enrich.WithMachineName()
+        .Enrich.WithEnvironmentName() // Ajout de l'enrichisseur d'environnement
+        .WriteTo.Console(outputTemplate:
+            "[{Timestamp:HH:mm:ss} {Level:u3}] {CorrelationId} {Message:lj}{NewLine}{Exception}");
+
+    // Application Insights — uniquement si la ConnectionString est configurée
+    var aiConnectionString = context.Configuration["ApplicationInsights:ConnectionString"];
+    if (!string.IsNullOrWhiteSpace(aiConnectionString))
+        config.WriteTo.ApplicationInsights(aiConnectionString, TelemetryConverter.Traces);
+});
+
+// ── Services ─────────────────────────────────────────────────────────────────
+builder.Services.AddApi(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddOpenApi();
-
+// ── Application ───────────────────────────────────────────────────────────────
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Pipeline de middlewares
+app.UsePhoenixPipeline();
+
+// Migration automatique en développement
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
+    await db.Database.MigrateAsync();
 }
 
-app.UseHttpsRedirection();
+await app.RunAsync();
 
-app.Run();
+// Exposition de la classe Program pour les tests d'intégration (WebApplicationFactory<Program>)
+public partial class Program { }
