@@ -58,6 +58,8 @@ export class ProductCatalogService {
         family: f.family,
         segment: f.segment,
         isCustomizable: f.isCustomizable,
+        isEcoFriendly: f.isEcoFriendly,
+        hasExpressDelivery: f.hasExpressDelivery,
         searchText: f.searchText
       })
       .pipe(takeUntilDestroyed(this.destroyRef))

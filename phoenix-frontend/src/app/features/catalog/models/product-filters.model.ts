@@ -9,6 +9,8 @@ export interface ProductFilters {
   family?: ProductFamily;
   segment?: CustomerSegment;
   isCustomizable?: boolean;
+  isEcoFriendly?: boolean;
+  hasExpressDelivery?: boolean;
   searchText?: string;
 }
 
