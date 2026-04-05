@@ -99,11 +99,11 @@ import { getPlaceholderImageUrl } from '../../../../shared/services/images.servi
               <button
                 class="btn-primary"
                 [routerLink]="['/configurateur', product()!.id]">
-                🎨 Personnaliser mon emballage
+                🎨 Je Personnalise en 2 min
               </button>
             }
             <button class="btn-outline" (click)="requestQuote()">
-              📋 Demander un devis gratuit
+              📋 Devis en moins de 1h
             </button>
           </div>
 

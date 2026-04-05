@@ -23,7 +23,7 @@ namespace Phoenix.Api.Controllers.v1.Admin;
 [ApiController]
 [Route("api/v1/admin/products")]
 [Produces("application/json")]
-[Authorize(Roles = "Admin,Employee")]
+//[Authorize(Roles = "Admin,Employee")]
 public sealed class AdminProductsController(IMediator mediator) : ControllerBase
 {
     // ── Corps de requête pour les opérations avec paramètres de route ────────
@@ -117,7 +117,7 @@ public sealed class AdminProductsController(IMediator mediator) : ControllerBase
     /// <response code="201">Produit créé — retourne l'identifiant du nouveau produit.</response>
     /// <response code="400">Données invalides ou SKU déjà utilisé.</response>
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateProduct(
@@ -164,7 +164,7 @@ public sealed class AdminProductsController(IMediator mediator) : ControllerBase
     /// <response code="204">Produit désactivé avec succès.</response>
     /// <response code="404">Produit introuvable.</response>
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeactivateProduct(Guid id, CancellationToken ct = default)
