@@ -20,6 +20,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TooltipModule } from 'primeng/tooltip';
 import { AdminProductService } from '../../services/admin-product.service';
 import { ProductSummary } from '../../../../catalog/models/product-summary.model';
 
@@ -37,7 +38,8 @@ import { ProductSummary } from '../../../../catalog/models/product-summary.model
     ConfirmDialogModule,
     IconFieldModule,
     InputIconModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    TooltipModule
   ],
   providers: [ConfirmationService, MessageService],
   template: `
@@ -130,14 +132,16 @@ import { ProductSummary } from '../../../../catalog/models/product-summary.model
                 icon="pi pi-pencil"
                 severity="secondary"
                 size="small"
-                [text]="true"
+                [rounded]="true"
+                [outlined]="true"
                 (onClick)="editProduct(product.id)"
                 pTooltip="Modifier" />
               <p-button
                 icon="pi pi-trash"
                 severity="danger"
                 size="small"
-                [text]="true"
+                [rounded]="true"
+                [outlined]="true"
                 (onClick)="confirmDeactivate(product)"
                 pTooltip="Désactiver"
                 [disabled]="!product.isActive" />
