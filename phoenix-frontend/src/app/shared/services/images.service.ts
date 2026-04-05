@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export function getPlaceholderImageUrl(): string {
-  return 'assets/images/product-placeholder.svg';
+  return 'assets/images/product-placeholder.png';
 }
 
 @Injectable({
