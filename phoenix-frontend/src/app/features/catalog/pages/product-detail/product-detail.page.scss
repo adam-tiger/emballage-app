@@ -3,9 +3,14 @@
   align-items: center;
   gap: 8px;
   padding: 20px 60px;
+  max-width: var(--phoenix-container-max);
+  margin: 0 auto;
   font-size: 13px;
   color: var(--phoenix-muted);
-  background: var(--phoenix-bg);
+
+  @media (max-width: 768px) {
+    padding: 16px 20px;
+  }
 
   a {
     color: var(--phoenix-muted);
@@ -21,7 +26,7 @@
   }
 
   span:last-child {
-    color: var(--phoenix-text);
+    color: var(--phoenix-text-soft);
   }
 }
 
@@ -30,14 +35,21 @@
 .detail-skeleton {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 48px;
   padding: 40px 60px;
-  animation: pulse 1.5s ease-in-out infinite;
+  max-width: var(--phoenix-container-max);
+  margin: 0 auto;
+  animation: pulse 1.6s ease-in-out infinite;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+  }
 
   &__image {
     height: 480px;
     background: var(--phoenix-surface2);
-    border-radius: 16px;
+    border-radius: var(--phoenix-radius-lg);
   }
 
   &__content {
@@ -68,7 +80,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   padding: 80px 20px;
   text-align: center;
   color: var(--phoenix-muted);
@@ -78,14 +90,17 @@
 .btn-back {
   border: 1px solid var(--phoenix-accent);
   color: var(--phoenix-accent);
-  border-radius: 8px;
-  padding: 10px 24px;
+  border-radius: var(--phoenix-radius-sm);
+  padding: 11px 26px;
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
 
   &:hover {
-    background: rgba(232, 85, 42, 0.1);
+    background: var(--phoenix-accent-glow);
   }
 }
 
@@ -94,28 +109,45 @@
 .detail-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  padding: 40px 60px 80px;
+  gap: 64px;
+  padding: 40px 60px 100px;
   background: var(--phoenix-bg);
-  max-width: 1280px;
+  max-width: var(--phoenix-container-max);
   margin: 0 auto;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 24px 20px 60px;
+  }
 }
 
 // ── Galerie ───────────────────────────────────────────────────────────────────
 
 .detail-gallery {
   &__main-wrap {
-    border-radius: 16px;
+    border-radius: var(--phoenix-radius-lg);
     overflow: hidden;
     background: var(--phoenix-surface2);
+    border: 1px solid var(--phoenix-border);
     aspect-ratio: 4 / 3;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.22s;
+
+    &:hover {
+      box-shadow: var(--phoenix-card-shadow);
+    }
   }
 
   &__main {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.4s ease;
+
+    &:hover {
+      transform: scale(1.03);
+    }
   }
 
   &__thumbs {
@@ -125,13 +157,13 @@
   }
 
   &__thumb {
-    width: 72px;
-    height: 72px;
+    width: 76px;
+    height: 76px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--phoenix-radius-sm);
     cursor: pointer;
     border: 2px solid transparent;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
     background: var(--phoenix-surface2);
 
     &:hover {
@@ -140,6 +172,7 @@
 
     &--active {
       border-color: var(--phoenix-accent);
+      box-shadow: 0 0 0 3px var(--phoenix-accent-glow);
     }
   }
 }
@@ -149,35 +182,41 @@
 .detail-info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .detail-family {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--phoenix-muted);
+  letter-spacing: 1.5px;
+  color: var(--phoenix-accent);
 }
 
 .detail-name {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: clamp(26px, 3.5vw, 36px);
+  font-weight: 900;
   color: var(--phoenix-text);
   line-height: 1.2;
+  letter-spacing: -0.5px;
 }
 
 .detail-description {
   font-size: 15px;
-  line-height: 1.65;
-  color: var(--phoenix-muted);
+  line-height: 1.75;
+  color: var(--phoenix-text-soft);
+  background: var(--phoenix-surface2);
+  border-left: 3px solid var(--phoenix-accent);
+  border-radius: 0 var(--phoenix-radius-sm) var(--phoenix-radius-sm) 0;
+  padding: 14px 18px;
 }
 
 .detail-variants {
-  padding: 20px;
+  padding: 22px;
   background: var(--phoenix-surface);
   border: 1px solid var(--phoenix-border);
-  border-radius: 14px;
+  border-radius: var(--phoenix-radius-md);
+  box-shadow: var(--phoenix-card-shadow);
 }
 
 // ── CTAs ──────────────────────────────────────────────────────────────────────
@@ -190,50 +229,68 @@
 
 .btn-primary {
   background: var(--phoenix-accent);
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 10px;
-  padding: 15px 28px;
+  border-radius: var(--phoenix-radius-md);
+  padding: 16px 28px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
   text-align: center;
+  display: block;
+  width: 100%;
+  letter-spacing: 0.2px;
 
   &:hover {
-    opacity: 0.88;
+    background: var(--phoenix-accent-hover);
+    box-shadow: var(--phoenix-hover-shadow);
+    transform: translateY(-1px);
   }
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--phoenix-text);
+  color: var(--phoenix-text-soft);
   border: 1px solid var(--phoenix-border);
-  border-radius: 10px;
+  border-radius: var(--phoenix-radius-md);
   padding: 15px 28px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
   text-align: center;
+  display: block;
+  width: 100%;
 
   &:hover {
     border-color: var(--phoenix-accent);
     color: var(--phoenix-accent);
+    background: var(--phoenix-accent-glow);
   }
 }
 
 // ── Garanties ─────────────────────────────────────────────────────────────────
 
 .detail-guarantees {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding-top: 8px;
-  border-top: 1px solid var(--phoenix-border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding-top: 4px;
 }
 
 .guarantee {
-  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  font-size: 12px;
   color: var(--phoenix-muted);
+  background: var(--phoenix-surface);
+  border: 1px solid var(--phoenix-border);
+  border-radius: var(--phoenix-radius-sm);
+  padding: 14px 10px;
+  font-weight: 500;
+  line-height: 1.4;
 }

@@ -3,15 +3,45 @@
 // ── Phoenix Design System — Variables CSS globales ────────────────────────────
 
 :root {
-  --phoenix-bg:       #0C0E13;
-  --phoenix-surface:  #13161E;
-  --phoenix-surface2: #1A1F2C;
-  --phoenix-border:   #252A38;
-  --phoenix-accent:   #E8552A;
-  --phoenix-accent2:  #F5A623;
-  --phoenix-text:     #E8E6E1;
-  --phoenix-muted:    #6B7585;
-  --phoenix-success:  #22C55E;
+  // Fonds
+  --phoenix-bg:       #0B0D12;
+  --phoenix-surface:  #151922;
+  --phoenix-surface2: #1F2433;
+  --phoenix-surface3: #262D3D;
+
+  // Bordures
+  --phoenix-border:   #2C3447;
+
+  // Accents
+  --phoenix-accent:       #FF5A2F;
+  --phoenix-accent-hover: #FF6A45;
+  --phoenix-accent2:      #FFB020;
+  --phoenix-accent-glow:  rgba(255, 90, 47, 0.18);
+  --phoenix-gradient:     linear-gradient(135deg, #FF5A2F 0%, #FFB020 100%);
+
+  // Textes
+  --phoenix-text:      #F5F1E8;
+  --phoenix-text-soft: #D8D2C8;
+  --phoenix-muted:     #8A93A5;
+  --phoenix-muted-2:   #667085;
+
+  // Sémantiques
+  --phoenix-success: #22C55E;
+  --phoenix-warning: #F59E0B;
+  --phoenix-danger:  #EF4444;
+  --phoenix-info:    #38BDF8;
+
+  // Ombres
+  --phoenix-card-shadow:  0 10px 30px rgba(0, 0, 0, 0.35);
+  --phoenix-hover-shadow: 0 16px 40px rgba(255, 90, 47, 0.18);
+
+  // Rayons
+  --phoenix-radius-sm: 12px;
+  --phoenix-radius-md: 16px;
+  --phoenix-radius-lg: 22px;
+
+  // Conteneur
+  --phoenix-container-max: 1440px;
 }
 
 // ── Reset de base ─────────────────────────────────────────────────────────────
@@ -45,4 +75,16 @@ img {
 
 button {
   font-family: inherit;
+}
+
+// ── Utilitaires globaux ───────────────────────────────────────────────────────
+
+.phoenix-container {
+  max-width: var(--phoenix-container-max);
+  margin: 0 auto;
+  padding: 0 60px;
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
 }

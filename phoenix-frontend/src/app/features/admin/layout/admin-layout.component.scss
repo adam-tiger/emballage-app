@@ -1,6 +1,6 @@
 .admin-shell {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 248px 1fr;
   min-height: 100vh;
   background: #080A0E;
 }
@@ -8,7 +8,7 @@
 .admin-sidebar {
   background: #080A0E;
   border-right: 1px solid var(--phoenix-border);
-  padding: 24px 14px;
+  padding: 24px 12px;
   position: sticky;
   top: 0;
   height: 100vh;
@@ -18,19 +18,26 @@
     margin-bottom: 28px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--phoenix-border);
+    padding-left: 8px;
   }
 
   &__logo {
     display: block;
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--phoenix-accent);
+    font-size: 17px;
+    font-weight: 900;
+    background: var(--phoenix-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     letter-spacing: 2px;
+    margin-bottom: 3px;
   }
 
   &__sub {
-    font-size: 11px;
-    color: var(--phoenix-muted);
+    font-size: 10px;
+    color: var(--phoenix-muted-2);
+    font-weight: 500;
+    letter-spacing: 0.5px;
   }
 
   &__nav {
@@ -40,26 +47,27 @@
 
   &__section {
     font-size: 9px;
-    font-weight: 700;
-    color: var(--phoenix-border);
+    font-weight: 800;
+    color: var(--phoenix-muted-2);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0 12px;
-    margin: 16px 0 8px;
+    letter-spacing: 1.5px;
+    padding: 0 10px;
+    margin: 18px 0 8px;
   }
 
   &__item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 9px 12px;
-    border-radius: 8px;
+    padding: 9px 10px;
+    border-radius: var(--phoenix-radius-sm);
     font-size: 13px;
     color: var(--phoenix-muted);
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.18s, color 0.18s;
     margin-bottom: 2px;
     text-decoration: none;
+    font-weight: 500;
 
     &:hover {
       background: var(--phoenix-surface2);
@@ -67,15 +75,16 @@
     }
 
     &.active {
-      background: rgba(232, 85, 42, 0.1);
+      background: var(--phoenix-accent-glow);
       color: var(--phoenix-accent);
-      font-weight: 600;
+      font-weight: 700;
+      border: 1px solid rgba(255, 90, 47, 0.2);
     }
   }
 }
 
 .admin-main {
-  padding: 32px;
+  padding: 32px 36px;
   overflow-y: auto;
   background: var(--phoenix-bg);
   min-height: 100vh;
