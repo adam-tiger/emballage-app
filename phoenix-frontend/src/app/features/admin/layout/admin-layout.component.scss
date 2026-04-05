@@ -1,0 +1,82 @@
+.admin-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background: #080A0E;
+}
+
+.admin-sidebar {
+  background: #080A0E;
+  border-right: 1px solid var(--phoenix-border);
+  padding: 24px 14px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+
+  &__brand {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--phoenix-border);
+  }
+
+  &__logo {
+    display: block;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--phoenix-accent);
+    letter-spacing: 2px;
+  }
+
+  &__sub {
+    font-size: 11px;
+    color: var(--phoenix-muted);
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__section {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--phoenix-border);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 12px;
+    margin: 16px 0 8px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--phoenix-muted);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    margin-bottom: 2px;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--phoenix-surface2);
+      color: var(--phoenix-text);
+    }
+
+    &.active {
+      background: rgba(232, 85, 42, 0.1);
+      color: var(--phoenix-accent);
+      font-weight: 600;
+    }
+  }
+}
+
+.admin-main {
+  padding: 32px;
+  overflow-y: auto;
+  background: var(--phoenix-bg);
+  min-height: 100vh;
+}
