@@ -5,47 +5,55 @@
 
   &--sm .badge {
     font-size: 10px;
-    padding: 2px 8px;
+    padding: 3px 9px;
   }
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
+  gap: 4px;
   border-radius: 20px;
-  padding: 3px 10px;
+  padding: 4px 11px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.4;
   white-space: nowrap;
+  letter-spacing: 0.2px;
 
   &--gourmet {
-    background: rgba(232, 85, 42, 0.12);
+    background: rgba(255, 90, 47, 0.15);
     color: var(--phoenix-accent);
+    border: 1px solid rgba(255, 90, 47, 0.3);
   }
 
   &--custom {
-    background: rgba(56, 189, 248, 0.12);
+    background: rgba(56, 189, 248, 0.15);
     color: #38BDF8;
+    border: 1px solid rgba(56, 189, 248, 0.3);
   }
 
   &--express {
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(239, 68, 68, 0.15);
     color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
   }
 
   &--eco {
-    background: rgba(34, 197, 94, 0.12);
+    background: rgba(34, 197, 94, 0.15);
     color: var(--phoenix-success);
+    border: 1px solid rgba(34, 197, 94, 0.3);
   }
 
   &--food {
-    background: rgba(107, 117, 133, 0.12);
+    background: rgba(138, 147, 165, 0.12);
     color: var(--phoenix-muted);
+    border: 1px solid rgba(138, 147, 165, 0.25);
   }
 
   &--weight {
-    background: rgba(245, 166, 35, 0.12);
+    background: rgba(255, 176, 32, 0.15);
     color: var(--phoenix-accent2);
+    border: 1px solid rgba(255, 176, 32, 0.3);
   }
 }

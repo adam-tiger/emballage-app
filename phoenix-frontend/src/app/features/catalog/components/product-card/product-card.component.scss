@@ -2,20 +2,22 @@
   display: block;
   background: var(--phoenix-surface);
   border: 1px solid var(--phoenix-border);
-  border-radius: 14px;
+  border-radius: var(--phoenix-radius-md);
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
   text-decoration: none;
   color: inherit;
+  box-shadow: var(--phoenix-card-shadow);
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     border-color: var(--phoenix-accent);
+    box-shadow: var(--phoenix-hover-shadow);
   }
 
   &__image {
-    height: 200px;
+    height: 210px;
     background: var(--phoenix-surface2);
     position: relative;
     overflow: hidden;
@@ -24,33 +26,41 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.04);
     }
   }
 
   &__gourmet-overlay {
     position: absolute;
-    top: 8px;
-    left: 8px;
-    background: var(--phoenix-accent);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 10px;
+    top: 12px;
+    left: 12px;
+    background: var(--phoenix-gradient);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 12px;
     border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   &__body {
-    padding: 16px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 
   &__family {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 700;
     color: var(--phoenix-muted);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 1px;
   }
 
   &__name {
@@ -61,13 +71,18 @@
   }
 
   &__footer {
-    margin-top: 6px;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--phoenix-border);
   }
 
   &__price {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 800;
-    color: var(--phoenix-accent);
+    background: var(--phoenix-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   &__moq {
