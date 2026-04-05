@@ -62,7 +62,7 @@ public sealed class AdminProductsControllerTests : IClassFixture<PhoenixWebAppFa
     {
         // Arrange
         var client  = _factory.CreateAuthenticatedClient("Admin");
-        var body    = BuildValidBody($"TEST-CREATE-{Guid.NewGuid():N[..8]}");
+        var body    = BuildValidBody($"TEST-{Guid.NewGuid():N}".ToUpperInvariant()[..20]);
 
         // Act
         var response = await client.PostAsJsonAsync("/api/v1/admin/products", body);
@@ -146,7 +146,7 @@ public sealed class AdminProductsControllerTests : IClassFixture<PhoenixWebAppFa
     {
         // Arrange — créer un produit via Admin
         var adminClient = _factory.CreateAuthenticatedClient("Admin");
-        var createBody  = BuildValidBody($"TEST-UPD-{Guid.NewGuid():N[..8]}");
+        var createBody  = BuildValidBody($"UPD-{Guid.NewGuid():N}".ToUpperInvariant()[..20]);
         var createResp  = await adminClient.PostAsJsonAsync("/api/v1/admin/products", createBody);
         var productId   = await createResp.Content.ReadFromJsonAsync<Guid>();
 
@@ -168,7 +168,7 @@ public sealed class AdminProductsControllerTests : IClassFixture<PhoenixWebAppFa
     {
         // Arrange — créer un produit à désactiver
         var adminClient = _factory.CreateAuthenticatedClient("Admin");
-        var createBody  = BuildValidBody($"TEST-DEACT-{Guid.NewGuid():N[..8]}");
+        var createBody  = BuildValidBody($"DEL-{Guid.NewGuid():N}".ToUpperInvariant()[..20]);
         var createResp  = await adminClient.PostAsJsonAsync("/api/v1/admin/products", createBody);
         var productId   = await createResp.Content.ReadFromJsonAsync<Guid>();
 
@@ -184,8 +184,9 @@ public sealed class AdminProductsControllerTests : IClassFixture<PhoenixWebAppFa
     {
         // Arrange — créer un produit via Admin
         var adminClient = _factory.CreateAuthenticatedClient("Admin");
-        var createBody  = BuildValidBody($"TEST-EMP-DEL-{Guid.NewGuid():N[..8]}");
+        var createBody  = BuildValidBody($"EMP-{Guid.NewGuid():N}".ToUpperInvariant()[..20]);
         var createResp  = await adminClient.PostAsJsonAsync("/api/v1/admin/products", createBody);
+        createResp.EnsureSuccessStatusCode();
         var productId   = await createResp.Content.ReadFromJsonAsync<Guid>();
 
         var employeeClient = _factory.CreateAuthenticatedClient("Employee");
