@@ -65,7 +65,7 @@ import { ApiError }     from '../../../../shared/models/api-error.model';
       @if (authService.hasError()) {
         <p-message
           severity="error"
-          [text]="authService.error()!.message"
+          [text]="authService.error()!.firstValidationError ?? authService.error()!.message"
           styleClass="w-full mb-4" />
       }
 

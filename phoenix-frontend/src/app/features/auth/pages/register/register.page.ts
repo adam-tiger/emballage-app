@@ -245,7 +245,7 @@ export class RegisterPage implements OnInit {
     { value: 'ChocolateConfectionery', label: '🍫 Chocolaterie' },
     { value: 'PizzaShop',            label: '🍕 Pizzéria' },
     { value: 'Other',                label: '📦 Autre activité' }
-  ] as const;
+  ];
 
   protected readonly form = this.fb.group(
     {
