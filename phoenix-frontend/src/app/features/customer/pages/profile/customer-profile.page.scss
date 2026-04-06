@@ -1,0 +1,88 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 600px;
+
+  &__title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--phoenix-text);
+    margin: 0;
+  }
+
+  &__loading {
+    color: var(--phoenix-muted);
+    font-size: 14px;
+    padding: 24px 0;
+  }
+}
+
+// ── Infos lecture seule ───────────────────────────────────────────────────────
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--phoenix-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__value {
+    font-size: 15px;
+    color: var(--phoenix-text);
+    font-weight: 500;
+  }
+
+  &__note {
+    font-size: 12px;
+    color: var(--phoenix-muted);
+    font-style: italic;
+  }
+}
+
+// ── Formulaire ───────────────────────────────────────────────────────────────
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 14px;
+    color: var(--phoenix-text);
+    font-weight: 500;
+  }
+}
+
+.form-error {
+  color: #ef4444;
+  font-size: 12px;
+}

@@ -1,0 +1,181 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  &__title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--phoenix-text);
+    margin: 0;
+  }
+
+  &__sub {
+    color: var(--phoenix-muted);
+    margin: 4px 0 0;
+    font-size: 15px;
+  }
+
+  &__loading {
+    color: var(--phoenix-muted);
+    font-size: 14px;
+    padding: 24px 0;
+  }
+
+  &__kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  &__section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--phoenix-text);
+    margin: 0 0 12px;
+  }
+
+  &__address {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__no-address {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--phoenix-surface);
+    border: 1px dashed var(--phoenix-border);
+    border-radius: 12px;
+
+    p {
+      margin: 0;
+      color: var(--phoenix-muted);
+      font-size: 14px;
+    }
+  }
+
+  &__cta {
+    background: var(--phoenix-surface);
+    border: 1px solid var(--phoenix-border);
+    border-radius: 14px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--phoenix-text);
+      margin: 0;
+    }
+
+    p {
+      color: var(--phoenix-muted);
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.6;
+    }
+  }
+}
+
+// ── KPI Cards ────────────────────────────────────────────────────────────────
+
+.kpi-card {
+  background: var(--phoenix-surface);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &--accent {
+    border-color: var(--phoenix-accent);
+    background: rgba(232, 85, 42, 0.05);
+  }
+
+  &__icon {
+    font-size: 24px;
+  }
+
+  &__value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--phoenix-text);
+    line-height: 1;
+  }
+
+  &__label {
+    font-size: 13px;
+    color: var(--phoenix-muted);
+  }
+}
+
+// ── Adresse preview ───────────────────────────────────────────────────────────
+
+.address-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--phoenix-text);
+  background: var(--phoenix-surface);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 10px;
+  padding: 16px;
+
+  strong {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  span {
+    color: var(--phoenix-muted);
+  }
+}
+
+// ── Liens et boutons ──────────────────────────────────────────────────────────
+
+.link-action {
+  color: var(--phoenix-accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.btn-link {
+  color: var(--phoenix-accent);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--phoenix-accent);
+  color: #fff;
+  padding: 11px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  width: fit-content;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--phoenix-accent-hover, #ff6a45);
+  }
+}
