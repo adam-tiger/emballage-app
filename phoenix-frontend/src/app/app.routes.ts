@@ -1,9 +1,17 @@
 import { Routes } from '@angular/router';
 
 import { authGuard }  from './core/auth/auth.guard';
-import { guestGuard } from './core/auth/guest.guard';
 import { roleGuard }  from './core/auth/role.guard';
 
+/**
+ * Routes racine de l'application Phoenix Emballages.
+ *
+ * - Routes publiques : accueil, catalogue
+ * - Routes auth : connexion/inscription/mot-de-passe-oublié (via AUTH_ROUTES + AuthLayoutComponent)
+ * - Routes protégées : espace-client (authGuard), admin (authGuard + roleGuard)
+ *
+ * Note : guestGuard est déclaré dans AUTH_ROUTES directement sur chaque route enfant.
+ */
 export const routes: Routes = [
   // ── Page d'accueil ────────────────────────────────────────────────────────
   {
@@ -19,32 +27,18 @@ export const routes: Routes = [
       import('./features/catalog/catalog.routes').then(m => m.CATALOG_ROUTES)
   },
 
-  // ── Auth — routes réservées aux non-connectés ─────────────────────────────
+  // ── Auth — layout split-screen partagé ────────────────────────────────────
+  // connexion, inscription, mot-de-passe-oublie
   {
-    path: 'connexion',
-    canActivate: [guestGuard],
-    loadComponent: () =>
-      import('./features/auth/pages/login/login.page').then(m => m.LoginPage)
-  },
-  {
-    path: 'inscription',
-    canActivate: [guestGuard],
-    loadComponent: () =>
-      import('./features/auth/pages/register/register.page').then(m => m.RegisterPage)
-  },
-  {
-    path: 'mot-de-passe-oublie',
-    canActivate: [guestGuard],
-    loadComponent: () =>
-      import('./features/auth/pages/forgot-password/forgot-password.page')
-        .then(m => m.ForgotPasswordPage)
+    path: '',
+    loadChildren: () =>
+      import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
   },
 
   // ── Espace client ─────────────────────────────────────────────────────────
   {
     path: 'espace-client',
-    canActivate: [authGuard, roleGuard],
-    data: { roles: ['Customer', 'Admin', 'Employee'] },
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./features/customer/customer.routes').then(m => m.CUSTOMER_ROUTES)
   },
