@@ -25,7 +25,8 @@ public static class AuthDataSeed
         using var scope   = serviceProvider.CreateScope();
         var roleManager   = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
         var userManager   = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var logger        = scope.ServiceProvider.GetRequiredService<ILogger<AuthDataSeed>>();
+        var logger        = scope.ServiceProvider.GetRequiredService<ILoggerFactory>()
+                                .CreateLogger(nameof(AuthDataSeed));
 
         await SeedRolesAsync(roleManager, logger);
         await SeedAdminUserAsync(userManager, logger);
