@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
@@ -8,8 +12,9 @@ import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes';
 
 import { routes } from './app.routes';
-import { errorInterceptor } from './core/http/error.interceptor';
+import { jwtInterceptor } from './core/http/jwt.interceptor';
 import { loadingInterceptor } from './core/http/loading.interceptor';
+import { AuthService } from './core/auth/auth.service';
 
 const PhoenixTheme = definePreset(Lara, {
   semantic: {
@@ -29,6 +34,14 @@ const PhoenixTheme = definePreset(Lara, {
   }
 });
 
+/**
+ * Factory APP_INITIALIZER — restaure la session utilisateur depuis sessionStorage
+ * au démarrage de l'application (SSR-compatible).
+ */
+function initAuth(authService: AuthService): () => void {
+  return () => authService.initFromStorage();
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -39,7 +52,9 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([errorInterceptor, loadingInterceptor])
+      // jwtInterceptor AVANT loadingInterceptor :
+      // gère l'injection du Bearer token ET le parsing des erreurs 401
+      withInterceptors([jwtInterceptor, loadingInterceptor])
     ),
     MessageService,
     ConfirmationService,
@@ -51,6 +66,13 @@ export const appConfig: ApplicationConfig = {
           cssLayer: false
         }
       }
-    })
+    }),
+    // ── Auth initializer ───────────────────────────────────────────────────
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initAuth,
+      deps: [AuthService],
+      multi: true
+    }
   ]
 };
