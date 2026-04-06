@@ -16,7 +16,7 @@ namespace Phoenix.Application.Auth.Commands.Register;
 /// </summary>
 public sealed class RegisterCommandHandler(
     UserManager<ApplicationUser>  userManager,
-    RoleManager<IdentityRole>     roleManager,
+    RoleManager<ApplicationRole>  roleManager,
     ICustomerRepository           customerRepository,
     IJwtTokenService              jwtTokenService,
     IUnitOfWork                   unitOfWork,
@@ -57,7 +57,7 @@ public sealed class RegisterCommandHandler(
 
         // 4. Attribuer le rôle Customer (créer s'il n'existe pas)
         if (!await roleManager.RoleExistsAsync("Customer"))
-            await roleManager.CreateAsync(new IdentityRole("Customer"));
+            await roleManager.CreateAsync(new ApplicationRole("Customer"));
 
         await userManager.AddToRoleAsync(user, "Customer");
 

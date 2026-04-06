@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Phoenix.Api.Extensions;
 using Phoenix.Infrastructure.Extensions;
 using Phoenix.Infrastructure.Persistence;
+using Phoenix.Infrastructure.Persistence.DataSeed;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,8 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<PhoenixDbContext>();
     await db.Database.MigrateAsync();
+
+    await AuthDataSeed.SeedAsync(app.Services);
 }
 
 await app.RunAsync();
