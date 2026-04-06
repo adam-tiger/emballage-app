@@ -20,13 +20,18 @@ public sealed partial class AuthMapper
     /// Mappe un <see cref="ApplicationUser"/> vers un <see cref="UserProfileDto"/>
     /// avec un tableau de rôles vide — à enrichir via <see cref="ToUserProfileDtoWithRoles"/>.
     /// </summary>
-    [MapProperty(nameof(ApplicationUser.Id),       nameof(UserProfileDto.Id))]
-    [MapProperty(nameof(ApplicationUser.Email),    nameof(UserProfileDto.Email))]
-    [MapProperty(nameof(ApplicationUser.FullName), nameof(UserProfileDto.FullName))]
-    [MapProperty(nameof(ApplicationUser.IsActive), nameof(UserProfileDto.IsActive))]
-    [MapperIgnore(nameof(UserProfileDto.Roles))]
-    [MapperIgnore(nameof(UserProfileDto.Segment))]
-    public partial UserProfileDto ToUserProfileDto(ApplicationUser user);
+    public UserProfileDto ToUserProfileDto(ApplicationUser user) => new(
+        Id: user.Id,
+        Email: user.Email ?? string.Empty,
+        FirstName: user.FirstName,
+        LastName: user.LastName,
+        FullName: user.FullName,
+        CompanyName: user.CompanyName,
+        Segment: string.Empty, // À remplir via ToUserProfileDtoWithRoles
+        Roles: [], // À remplir via ToUserProfileDtoWithRoles
+        IsActive: user.IsActive,
+        CreatedAtUtc: user.CreatedAtUtc
+    );
 
     /// <summary>
     /// Construit un <see cref="UserProfileDto"/> complet en ajoutant les rôles et le segment
