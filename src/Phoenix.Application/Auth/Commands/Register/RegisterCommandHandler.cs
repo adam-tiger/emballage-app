@@ -19,6 +19,7 @@ public sealed class RegisterCommandHandler(
     RoleManager<ApplicationRole>  roleManager,
     ICustomerRepository           customerRepository,
     IJwtTokenService              jwtTokenService,
+    IRefreshTokenStore            refreshTokenStore,
     IUnitOfWork                   unitOfWork,
     IEmailService                 emailService)
     : IRequestHandler<RegisterCommand, AuthResponse>
@@ -89,11 +90,19 @@ public sealed class RegisterCommandHandler(
 
         var tokens = jwtTokenService.GenerateTokens(claims);
 
-        // 9. Email de bienvenue (best-effort, ne bloque pas la réponse)
+        // 9. Stocker le refresh token
+        await refreshTokenStore.StoreAsync(new RefreshTokenData(
+            Token:     tokens.RefreshToken,
+            UserId:    user.Id,
+            ExpiresAt: tokens.RefreshTokenExpiresAt,
+            IsRevoked: false,
+            CreatedAt: DateTime.UtcNow), ct);
+
+        // 10. Email de bienvenue (best-effort, ne bloque pas la réponse)
         _ = emailService.SendWelcomeEmailAsync(user.Email!, user.FirstName, ct)
                         .ContinueWith(_ => { }, TaskContinuationOptions.OnlyOnFaulted);
 
-        // 10. Retourner AuthResponse
+        // 11. Retourner AuthResponse
         var profile = new UserProfileDto(
             Id:          user.Id,
             Email:       user.Email!,
@@ -107,6 +116,6 @@ public sealed class RegisterCommandHandler(
             CreatedAtUtc: user.CreatedAtUtc);
 
         var expiresIn = (int)(tokens.AccessTokenExpiresAt - DateTime.UtcNow).TotalSeconds;
-        return new AuthResponse(tokens.AccessToken, expiresIn, profile);
+        return new AuthResponse(tokens.AccessToken, tokens.RefreshToken, expiresIn, profile);
     }
 }

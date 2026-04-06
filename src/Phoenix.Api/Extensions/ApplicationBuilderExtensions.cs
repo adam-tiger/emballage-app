@@ -48,6 +48,7 @@ public static class ApplicationBuilderExtensions
 
         app.UseHttpsRedirection();
         app.UseCors("PhoenixCors");
+        app.UseCookiePolicy();    // AVANT UseAuthentication
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();

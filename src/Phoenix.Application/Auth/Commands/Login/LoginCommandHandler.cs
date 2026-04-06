@@ -82,6 +82,6 @@ public sealed class LoginCommandHandler(
             CreatedAtUtc: user.CreatedAtUtc);
 
         var expiresIn = (int)(tokens.AccessTokenExpiresAt - DateTime.UtcNow).TotalSeconds;
-        return new AuthResponse(tokens.AccessToken, expiresIn, profile);
+        return new AuthResponse(tokens.AccessToken, tokens.RefreshToken, expiresIn, profile);
     }
 }

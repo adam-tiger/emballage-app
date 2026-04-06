@@ -82,6 +82,12 @@ public static class ApiServiceExtensions
             });
         });
 
+        // ── Cookie Policy ─────────────────────────────────────────────────────
+        services.Configure<CookiePolicyOptions>(options =>
+        {
+            options.MinimumSameSitePolicy = SameSiteMode.Strict;
+        });
+
         services.AddAuthorization();
 
         return services;
