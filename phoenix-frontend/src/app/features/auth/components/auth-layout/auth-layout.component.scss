@@ -1,0 +1,123 @@
+.auth-shell {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  min-height: 100vh;
+}
+
+// ── Branding (gauche) ───────────────────────────────────────────────────────
+
+.auth-branding {
+  background: linear-gradient(135deg, #0c0e13 0%, #1a1025 50%, #0c0e13 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+
+  &__inner {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  &__logo {
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__phoenix {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--phoenix-accent);
+    letter-spacing: 3px;
+    display: block;
+  }
+
+  &__emballages {
+    font-size: 11px;
+    color: var(--phoenix-muted);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  &__title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--phoenix-text);
+    margin-top: 48px;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  &__sub {
+    color: var(--phoenix-muted);
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  &__args {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    li {
+      color: var(--phoenix-text);
+      font-size: 14px;
+    }
+  }
+
+  &__footer {
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--phoenix-muted);
+    border-top: 1px solid var(--phoenix-border);
+    padding-top: 20px;
+    line-height: 1.6;
+  }
+}
+
+.accent {
+  color: var(--phoenix-accent);
+}
+
+// ── Contenu (droite) ────────────────────────────────────────────────────────
+
+.auth-content {
+  background: var(--phoenix-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  overflow-y: auto;
+
+  &__inner {
+    width: 100%;
+    max-width: 440px;
+  }
+}
+
+// ── Responsive ──────────────────────────────────────────────────────────────
+
+@media (max-width: 768px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-branding {
+    display: none;
+  }
+
+  .auth-content {
+    padding: 24px 20px;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+}

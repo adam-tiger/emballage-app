@@ -1,0 +1,81 @@
+.register-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__header {
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--phoenix-text);
+      margin: 0;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--phoenix-muted);
+      margin: 6px 0 0;
+    }
+  }
+}
+
+// ── Formulaire ───────────────────────────────────────────────────────────────
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Champs ───────────────────────────────────────────────────────────────────
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 14px;
+    color: var(--phoenix-text);
+    font-weight: 500;
+  }
+
+  &--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.form-error {
+  color: #ef4444;
+  font-size: 12px;
+}
+
+// ── Liens ────────────────────────────────────────────────────────────────────
+
+.link {
+  color: var(--phoenix-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.terms-label {
+  font-size: 13px;
+  color: var(--phoenix-muted);
+  cursor: pointer;
+  line-height: 1.4;
+}
