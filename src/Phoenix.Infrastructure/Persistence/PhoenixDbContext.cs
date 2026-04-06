@@ -1,23 +1,27 @@
 using MediatR;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Phoenix.Application.Common.Identity;
+using Phoenix.Domain.Common.Interfaces;
+using Phoenix.Domain.Customers.Entities;
 using Phoenix.Domain.Products.Entities;
+using Phoenix.Infrastructure.Identity;
 using Phoenix.Infrastructure.Persistence.DataSeed;
 
 namespace Phoenix.Infrastructure.Persistence;
 
 /// <summary>
 /// Contexte EF Core principal de l'application Phoenix.
+/// Hérite de <see cref="IdentityDbContext{TUser,TRole,TKey}"/> pour intégrer ASP.NET Identity
+/// (tables <c>AspNetUsers</c>, <c>AspNetRoles</c>, etc., renommées dans les configurations).
 /// Dispatch les événements de domaine via MediatR après chaque <see cref="SaveChangesAsync"/>.
 /// </summary>
-/// <remarks>
-/// Configure les entités du module <c>Products</c> via <c>ApplyConfigurationsFromAssembly</c>.
-/// Les données de référence sont initialisées par <see cref="ProductDataSeed"/>.
-/// </remarks>
 public sealed class PhoenixDbContext(
     DbContextOptions<PhoenixDbContext> options,
-    IMediator mediator) : DbContext(options)
+    IMediator mediator)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
-    // ── DbSets ──────────────────────────────────────────────────────────────
+    // ── DbSets — Products ────────────────────────────────────────────────────
 
     /// <summary>Agrégats <see cref="Product"/> — table <c>products</c>.</summary>
     public DbSet<Product> Products => Set<Product>();
@@ -31,28 +35,40 @@ public sealed class PhoenixDbContext(
     /// <summary>Images produit — table <c>product_images</c>.</summary>
     public DbSet<ProductImage> ProductImages => Set<ProductImage>();
 
-    // ── Model configuration ─────────────────────────────────────────────────
+    // ── DbSets — Customers ───────────────────────────────────────────────────
+
+    /// <summary>Agrégats <see cref="Customer"/> — table <c>customers</c>.</summary>
+    public DbSet<Customer> Customers => Set<Customer>();
+
+    /// <summary>Adresses de livraison — table <c>customer_addresses</c>.</summary>
+    public DbSet<CustomerAddress> CustomerAddresses => Set<CustomerAddress>();
+
+    // ── DbSets — Identity ────────────────────────────────────────────────────
+
+    /// <summary>Refresh tokens persistés — table <c>refresh_tokens</c>.</summary>
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
+    // ── Model configuration ──────────────────────────────────────────────────
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Applique toutes les IEntityTypeConfiguration<T> de l'assemblée (sans réflexion à l'exécution)
+        // Applique toutes les IEntityTypeConfiguration<T> de l'assemblée
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(PhoenixDbContext).Assembly);
 
         // Données de référence initiales
         ProductDataSeed.Seed(modelBuilder);
     }
 
-    // ── SaveChangesAsync ────────────────────────────────────────────────────
+    // ── SaveChangesAsync ─────────────────────────────────────────────────────
 
     /// <summary>
-    /// Persiste les modifications, met à jour <see cref="Product.UpdatedAtUtc"/> pour chaque
-    /// agrégat modifié, puis dispatche les événements de domaine accumulés via MediatR.
+    /// Persiste les modifications, met à jour <see cref="Product.UpdatedAtUtc"/> et
+    /// <see cref="Customer.UpdatedAtUtc"/> pour chaque agrégat modifié, puis dispatche
+    /// les événements de domaine accumulés via MediatR.
     /// </summary>
-    /// <param name="cancellationToken">Jeton d'annulation.</param>
-    /// <returns>Nombre de lignes affectées.</returns>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         // ── 1. Auto-mise à jour de UpdatedAtUtc ──────────────────────────────
@@ -62,19 +78,26 @@ public sealed class PhoenixDbContext(
                 entry.Property(nameof(Product.UpdatedAtUtc)).CurrentValue = DateTime.UtcNow;
         }
 
-        // ── 2. Collecte et purge des événements de domaine ───────────────────
-        var aggregatesWithEvents = ChangeTracker
+        // ── 2. Collecte des événements de domaine (Products + Customers) ─────
+        var productsWithEvents = ChangeTracker
             .Entries<Product>()
             .Where(e => e.Entity.DomainEvents.Any())
             .Select(e => e.Entity)
             .ToList();
 
-        var domainEvents = aggregatesWithEvents
-            .SelectMany(p => p.DomainEvents)
+        var customersWithEvents = ChangeTracker
+            .Entries<Customer>()
+            .Where(e => e.Entity.DomainEvents.Any())
+            .Select(e => e.Entity)
             .ToList();
 
-        foreach (var aggregate in aggregatesWithEvents)
-            aggregate.ClearDomainEvents();
+        var domainEvents = productsWithEvents
+            .SelectMany(p => p.DomainEvents)
+            .Concat(customersWithEvents.SelectMany(c => c.DomainEvents))
+            .ToList();
+
+        foreach (var p in productsWithEvents)  p.ClearDomainEvents();
+        foreach (var c in customersWithEvents) c.ClearDomainEvents();
 
         // ── 3. Persistance ───────────────────────────────────────────────────
         var result = await base.SaveChangesAsync(cancellationToken);
