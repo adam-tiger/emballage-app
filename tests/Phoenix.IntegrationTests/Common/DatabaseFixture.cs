@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using Phoenix.Application.Common.Identity;
+using Phoenix.Domain.Products.ValueObjects;
 using Phoenix.Infrastructure.Persistence;
 
 namespace Phoenix.IntegrationTests.Common;
@@ -26,6 +29,38 @@ public sealed class DatabaseFixture : IAsyncLifetime
 
         // Applique les migrations sur le container de test
         await db.Database.MigrateAsync();
+
+        // Seed the well-known test user used by TestAuthHandler
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+        var testUserId = TestAuthHandler.TestUserId.ToString();
+
+        if (await userManager.FindByIdAsync(testUserId) is null)
+        {
+            // Ensure the Customer role exists
+            if (!await roleManager.RoleExistsAsync(ApplicationRole.Customer))
+                await roleManager.CreateAsync(new ApplicationRole(ApplicationRole.Customer));
+
+            var testUser = new ApplicationUser
+            {
+                Id             = testUserId,
+                UserName       = "test@phoenix.fr",
+                Email          = "test@phoenix.fr",
+                EmailConfirmed = true,
+                FirstName      = "Test",
+                LastName       = "User",
+                CompanyName    = "Phoenix Test",
+                Segment        = CustomerSegment.Other,
+                IsActive       = true,
+                CreatedAtUtc   = DateTime.UtcNow
+            };
+
+            var result = await userManager.CreateAsync(testUser, "Password1!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(testUser, ApplicationRole.Customer);
+            }
+        }
     }
 
     /// <inheritdoc/>

@@ -97,7 +97,7 @@ export class ProductCardComponent {
   readonly topBadges = computed(() => {
     const p = this.product();
     const b: Array<{ label: string; type: string }> = [];
-    if (p.isGourmetRange) b.push({ label: '★ Gourmet', type: 'gourmet' });
+    if (p.isGourmetRange) b.push({ label: '★ Gamme Gourmet', type: 'gourmet' });
     return b;
   });
 
