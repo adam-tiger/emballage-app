@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Phoenix.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Phoenix.Infrastructure.Persistence;
 namespace Phoenix.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(PhoenixDbContext))]
-    partial class PhoenixDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260406010430_AddAuthModule")]
+    partial class AddAuthModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
