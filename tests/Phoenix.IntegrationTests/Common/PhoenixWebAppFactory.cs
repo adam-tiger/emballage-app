@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -31,6 +32,16 @@ public sealed class PhoenixWebAppFactory : WebApplicationFactory<Program>, IAsyn
     {
         builder.UseEnvironment("Testing");
 
+        builder.ConfigureAppConfiguration(config =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Jwt:Secret"]   = "IntegrationTestSecretKeyThatIsLongEnoughForHmacSha256!",
+                ["Jwt:Issuer"]   = "phoenix-tests",
+                ["Jwt:Audience"] = "phoenix-tests",
+            });
+        });
+
         builder.ConfigureServices(services =>
         {
             // ── Remplacer la vraie DB par le container de test ──────────────
@@ -44,7 +55,11 @@ public sealed class PhoenixWebAppFactory : WebApplicationFactory<Program>, IAsyn
                 options.UseNpgsql(_postgres.GetConnectionString()));
 
             // ── Authentification de test — bypass complet en testing ─────────
-            services.AddAuthentication("TestScheme")
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = "TestScheme";
+                    options.DefaultChallengeScheme    = "TestScheme";
+                })
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
                     "TestScheme", _ => { });
         });

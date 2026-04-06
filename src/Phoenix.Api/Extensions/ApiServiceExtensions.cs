@@ -1,14 +1,11 @@
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.IdentityModel.Tokens;
 using Phoenix.Application.Common.Behaviors;
 using Phoenix.Application.Products.Commands.CreateProduct;
 using Phoenix.Application.Products.Mappings;
+using Phoenix.Application.Customers.Mappings;
 
 namespace Phoenix.Api.Extensions;
 
@@ -55,6 +52,7 @@ public static class ApiServiceExtensions
 
         // ── Mapperly Mappers ─────────────────────────────────────────────────
         services.AddSingleton<ProductMapper>();
+        services.AddSingleton<CustomerMapper>();
 
         // ── Controllers — JSON camelCase + enums en string ───────────────────
         services.AddControllers()
@@ -83,24 +81,6 @@ public static class ApiServiceExtensions
                     .AllowCredentials();
             });
         });
-
-        // ── JWT Authentication ────────────────────────────────────────────────
-        services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer           = true,
-                    ValidateAudience         = true,
-                    ValidateLifetime         = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer              = configuration["Jwt:Issuer"],
-                    ValidAudience            = configuration["Jwt:Audience"],
-                    IssuerSigningKey         = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!))
-                };
-            });
 
         services.AddAuthorization();
 
