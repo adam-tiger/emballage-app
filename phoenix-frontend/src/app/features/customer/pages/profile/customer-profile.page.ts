@@ -19,6 +19,7 @@ import { AuthService }      from '../../../../core/auth/auth.service';
 import { ApiError }         from '../../../../shared/models/api-error.model';
 import { CustomerService }  from '../../services/customer.service';
 import { CustomerProfileDto } from '../../models/customer-address.model';
+import { DatePipe } from '@angular/common';
 
 /**
  * Page d'édition du profil client Phoenix.
@@ -34,6 +35,7 @@ import { CustomerProfileDto } from '../../models/customer-address.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
+    DatePipe,
     // PrimeNG
     InputTextModule,
     SelectModule,
@@ -162,7 +164,7 @@ export class CustomerProfilePage implements OnInit {
     { value: 'ChocolateConfectionery', label: '🍫 Chocolaterie' },
     { value: 'PizzaShop',              label: '🍕 Pizzéria' },
     { value: 'Other',                  label: '📦 Autre activité' }
-  ] as const;
+  ];
 
   protected readonly form = this.fb.group({
     firstName:   ['', [Validators.required, Validators.maxLength(100)]],
