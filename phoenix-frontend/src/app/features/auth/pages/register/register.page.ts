@@ -233,19 +233,21 @@ export class RegisterPage implements OnInit {
   private   readonly messageService = inject(MessageService);
   private   readonly fb             = inject(FormBuilder);
 
-  /** Options de segmentation B2B avec emoji et libellés français. */
-  protected readonly segmentOptions = [
-    { value: 'FastFood',             label: '🍔 Fast Food & Burger' },
-    { value: 'BakeryPastry',         label: '🥐 Boulangerie & Pâtisserie' },
-    { value: 'JapaneseAsian',        label: '🍣 Japonais & Asiatique' },
-    { value: 'BubbleTea',            label: '🧋 Bubble Tea' },
-    { value: 'RetailCommerce',       label: '🛍️ Commerce & Retail' },
-    { value: 'FoodTruck',            label: '🚚 Food Truck' },
-    { value: 'Catering',             label: '🎉 Traiteur & Événementiel' },
+  protected readonly segmentOptions: Array<{ value: string; label: string }> = [
+    { value: 'FastFood',               label: '🍔 Fast Food & Burger' },
+    { value: 'BakeryPastry',           label: '🥐 Boulangerie & Pâtisserie' },
+    { value: 'JapaneseAsian',          label: '🍣 Japonais & Asiatique' },
+    { value: 'BubbleTea',              label: '🧋 Bubble Tea' },
+    { value: 'RetailCommerce',         label: '🛍️ Commerce & Retail' },
+    { value: 'FoodTruck',              label: '🚚 Food Truck' },
+    { value: 'Catering',               label: '🎉 Traiteur & Événementiel' },
     { value: 'ChocolateConfectionery', label: '🍫 Chocolaterie' },
-    { value: 'PizzaShop',            label: '🍕 Pizzéria' },
-    { value: 'Other',                label: '📦 Autre activité' }
+    { value: 'PizzaShop',              label: '🍕 Pizzéria' },
+    { value: 'Other',                  label: '📦 Autre activité' }
   ];
+
+  /** Options de segmentation B2B avec emoji et libellés français. */
+  // (typé explicitement pour éviter TS4104: readonly[] -> any[] dans PrimeNG)
 
   protected readonly form = this.fb.group(
     {

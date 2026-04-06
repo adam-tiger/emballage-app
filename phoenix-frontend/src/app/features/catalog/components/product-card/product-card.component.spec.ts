@@ -113,8 +113,9 @@ describe('ProductCardComponent', () => {
     const el = fixture.nativeElement as HTMLElement;
 
     // Assert
-    expect(el.querySelector('.product-card__gourmet-overlay')).toBeTruthy();
-    expect(el.textContent).toContain('Gamme Gourmet');
+    const gourmetBadge = el.querySelector('.product-card__badge--gourmet');
+    expect(gourmetBadge).toBeTruthy();
+    expect(gourmetBadge?.textContent).toContain('Gamme Gourmet');
   });
 
   it('should not show Gourmet overlay when isGourmetRange is false', () => {
@@ -123,7 +124,7 @@ describe('ProductCardComponent', () => {
     const el = fixture.nativeElement as HTMLElement;
 
     // Assert
-    expect(el.querySelector('.product-card__gourmet-overlay')).toBeFalsy();
+    expect(el.querySelector('.product-card__badge--gourmet')).toBeFalsy();
   });
 
   it('should have routerLink pointing to product detail', () => {

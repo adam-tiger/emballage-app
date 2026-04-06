@@ -55,10 +55,22 @@ public sealed class PhoenixWebAppFactory : WebApplicationFactory<Program>, IAsyn
                 options.UseNpgsql(_postgres.GetConnectionString()));
 
             // ── Authentification de test — bypass complet en testing ─────────
+            // Use a policy scheme that forwards to TestScheme when the
+            // X-Test-Role header is present, otherwise falls back to the
+            // real JWT Bearer scheme so "real JWT" tests also work.
             services.AddAuthentication(options =>
                 {
-                    options.DefaultAuthenticateScheme = "TestScheme";
-                    options.DefaultChallengeScheme    = "TestScheme";
+                    options.DefaultAuthenticateScheme = "Smart";
+                    options.DefaultChallengeScheme    = "Smart";
+                })
+                .AddPolicyScheme("Smart", "Smart", options =>
+                {
+                    options.ForwardDefaultSelector = context =>
+                    {
+                        if (context.Request.Headers.ContainsKey(TestAuthHandler.RoleHeader))
+                            return "TestScheme";
+                        return "Bearer";
+                    };
                 })
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
                     "TestScheme", _ => { });
@@ -104,6 +116,8 @@ public sealed class TestAuthHandler(
 {
     /// <summary>Nom du header HTTP contenant le rôle de test.</summary>
     public const string RoleHeader = "X-Test-Role";
+    /// <summary>Well-known test user ID, seeded into the database during test setup.</summary>
+    public static readonly Guid TestUserId = Guid.Parse("00000000-0000-0000-0000-000000000001");
 
     /// <inheritdoc/>
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -117,7 +131,7 @@ public sealed class TestAuthHandler(
 
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+            new(ClaimTypes.NameIdentifier, TestUserId.ToString()),
             new(ClaimTypes.Email,          "test@phoenix.fr"),
             new(ClaimTypes.Name,           "Test User"),
             new(ClaimTypes.Role,           role)
